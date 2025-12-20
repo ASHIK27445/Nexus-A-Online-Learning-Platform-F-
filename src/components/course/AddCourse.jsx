@@ -1,5 +1,6 @@
 import { use, useState } from "react"
 import { AuthContext } from "../../Auth/AuthContext"
+import Swal from 'sweetalert2'
 import axios from 'axios';
 const AddCourse = () => {
     const {user} = use(AuthContext)
@@ -77,11 +78,50 @@ const AddCourse = () => {
         console.log(courseData)
 
         axios.post('http://localhost:3000/dashboard/addCourse', courseData)
-          .then(res => console.log(res.data))
+          .then(res => {
+            console.log(res.data)
+            Swal.fire({
+              title: "Course Added Successfully!",
+              text: "The course has been added successfully.",
+              icon: "success",
+              confirmButtonText: "Got it!",
+              confirmButtonColor: "#00d9ff",
+              background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+              color: "#e0e0e0",
+              iconColor: "#00d9ff",
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              },
+              timer: 3000,
+              timerProgressBar: true,
+              allowOutsideClick: false,
+              allowEscapeKey: true,
+              customClass: {
+                popup: 'robot-popup'
+              },
+              didOpen: () => {
+                const style = document.createElement('style');
+                style.textContent = `
+                  .robot-popup {
+                    border: 2px solid #00d9ff !important;
+                    border-radius: 10px !important;
+                    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3) !important;
+                  }
+                `;
+                document.head.appendChild(style);
+              }
+            });
+            // Reset the form
+            form.reset();
+            setFeatures([{title: "", description: ""}])
+          })
           .catch(err => console.log(err))
     }
     return(
-    <div className="min-h-screen bg-linear-to-br from-gray-950 via-neutral-950 to-stone-950 flex items-center justify-center p-6 relative">
+    <div className="min-h-screen mt-20 bg-linear-to-br from-gray-950 via-neutral-950 to-stone-950 flex items-center justify-center p-6 relative">
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
 
