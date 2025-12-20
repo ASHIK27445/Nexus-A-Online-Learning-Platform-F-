@@ -18,11 +18,12 @@ const EnrolledCourses = () => {
   useEffect(() => {
     axios.get(`http://localhost:3000/myenroll/${user?.email}`)
       .then(res => {
-        setEnrolledCourses(res.data.course);
+        setEnrolledCourses(res.data.course || []);
         setIsLoaded(true);
       })
       .catch(err => {
         console.log(err);
+        setEnrolledCourses([])
         setIsLoaded(true);
       });
   }, [user?.email]);
@@ -165,7 +166,10 @@ const EnrolledCourses = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-linear-to-r from-emerald-500 to-teal-600 text-white rounded-2xl font-semibold shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all"
             >
-              Browse Courses
+              <Link to="/allCourses">
+                  Browse Courses
+              </Link>
+              
             </motion.button>
           </motion.div>
         ) : (
