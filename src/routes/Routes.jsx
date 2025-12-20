@@ -12,6 +12,7 @@ import MyCourses from "../components/course/MyCourse";
 import AllCourses from "../components/course/AllCourses";
 import UpdateCourse from "../components/course/UpdateCourse";
 import EnrolledCourses from "../components/course/EnrolledCourses";
+import TopInstructors from "../components/course/TopInstructors";
 
 export const router = createBrowserRouter([
     {
@@ -46,6 +47,9 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/myEnrollCourse', element:<PrivateRouter><EnrolledCourses></EnrolledCourses></PrivateRouter> 
+            },
+            {
+                path:'/topInstructors', Component: TopInstructors
             }
         ]
     }

@@ -48,7 +48,7 @@ const PopularCourses = () => {
 
         {/* Courses Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.slice(0,3).map((course, index) => (
+          {courses.slice(0,6).map((course, index) => (
             <div
               key={course._id}
               className="animate-fadeIn"
@@ -68,7 +68,7 @@ const PopularCourses = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;
