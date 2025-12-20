@@ -1,3 +1,7 @@
 node_modules
 public/course.json
 src/Demo.jsx
+
+.env
+
+src/firebase/firebase.init.js
