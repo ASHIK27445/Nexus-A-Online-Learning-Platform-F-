@@ -118,7 +118,42 @@ const AddCourse = () => {
             form.reset();
             setFeatures([{title: "", description: ""}])
           })
-          .catch(err => console.log(err))
+          .catch(err => {
+                    Swal.fire({
+                    title: "⚠️ Error!",
+                    text: `${err}. Please try again.`,
+                    icon: "error",
+                    confirmButtonText: "Okay",
+                    confirmButtonColor: "#ff4757",
+                    background: "linear-gradient(135deg, #2d1b1b 0%, #1a0a0a 100%)",
+                    color: "#ffcccc",
+                    iconColor: "#ff4757",
+                    showClass: {
+                      popup: 'animate__animated animate__shakeX'
+                    },
+                    hideClass: {
+                      popup: 'animate__animated animate__fadeOut'
+                    },
+                    timer: 3000,
+                    timerProgressBar: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: true,
+                    customClass: {
+                      popup: 'error-popup'
+                    },
+                    didOpen: () => {
+                      const style = document.createElement('style');
+                      style.textContent = `
+                        .error-popup {
+                          border: 2px solid #ff4757 !important;
+                          border-radius: 10px !important;
+                          box-shadow: 0 0 15px rgba(255, 71, 87, 0.3) !important;
+                        }
+                      `;
+                      document.head.appendChild(style);
+                    }
+                    });
+          })
     }
     return(
     <div className="min-h-screen mt-20 bg-linear-to-br from-gray-950 via-neutral-950 to-stone-950 flex items-center justify-center p-6 relative">
