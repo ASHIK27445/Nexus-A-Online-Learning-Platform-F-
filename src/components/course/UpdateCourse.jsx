@@ -2,7 +2,7 @@ import { use, useEffect, useState } from "react"
 import { AuthContext } from "../../Auth/AuthContext"
 import axios from "axios"
 import { useParams } from "react-router"
-
+import Swal from 'sweetalert2'
 const UpdateCourse = () => {
   const {user} = use(AuthContext)
   const {id} = useParams()
@@ -66,7 +66,43 @@ const UpdateCourse = () => {
       console.log(updatedCourse)
 
       axios.put(`http://localhost:3000/updatedCourse/${id}`, updatedCourse)
-        .then(res=> console.log(res.data))
+        .then(res=> {
+          console.log(res.data)
+            Swal.fire({
+              title: "Update Successfully!",
+              text: "The course has been Updated successfully.",
+              icon: "success",
+              confirmButtonText: "Got it!",
+              confirmButtonColor: "#00d9ff",
+              background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)",
+              color: "#e0e0e0",
+              iconColor: "#00d9ff",
+              showClass: {
+                popup: 'animate__animated animate__fadeInDown'
+              },
+              hideClass: {
+                popup: 'animate__animated animate__fadeOutUp'
+              },
+              timer: 3000,
+              timerProgressBar: true,
+              allowOutsideClick: false,
+              allowEscapeKey: true,
+              customClass: {
+                popup: 'robot-popup'
+              },
+              didOpen: () => {
+                const style = document.createElement('style');
+                style.textContent = `
+                  .robot-popup {
+                    border: 2px solid #00d9ff !important;
+                    border-radius: 10px !important;
+                    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3) !important;
+                  }
+                `;
+                document.head.appendChild(style);
+              }
+            });
+        })
         .catch(err=> console.log(err))
   }
   return(
