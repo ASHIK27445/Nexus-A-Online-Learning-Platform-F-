@@ -87,7 +87,7 @@ const Footer = () => {
               <div className="w-12 h-12 bg-linear-to-br from-amber-400 to-orange-600 rounded-xl flex items-center justify-center">
                 <BookOpen className="w-7 h-7 text-white" />
               </div>
-              <span className="text-3xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">EduLux</span>
+              <span className="text-3xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">Nexus</span>
             </div>
             <p className="text-gray-400 mb-6 leading-relaxed">
               Empowering learners worldwide with premium education. Transform your career with cutting-edge courses from industry experts.
@@ -95,23 +95,23 @@ const Footer = () => {
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <a href="mailto:info@edulux.com" className="flex items-center space-x-3 text-gray-400 hover:text-amber-400 transition-colors group">
+              <a href="https://github.com/ASHIK27445" className="flex items-center space-x-3 text-gray-400 hover:text-amber-400 transition-colors group">
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-amber-500/10 transition-colors">
                   <Mail className="w-5 h-5" />
                 </div>
-                <span>info@edulux.com</span>
+                <span>mdashikulislam27889@gmail.com</span>
               </a>
               <a href="tel:+1234567890" className="flex items-center space-x-3 text-gray-400 hover:text-amber-400 transition-colors group">
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-amber-500/10 transition-colors">
                   <Phone className="w-5 h-5" />
                 </div>
-                <span>+1 (234) 567-890</span>
+                <span>+880 (170) 567-890</span>
               </a>
               <div className="flex items-center space-x-3 text-gray-400">
                 <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
                   <MapPin className="w-5 h-5" />
                 </div>
-                <span>San Francisco, CA 94102</span>
+                <span>Agargoan, Dhaka-1207</span>
               </div>
             </div>
           </div>
@@ -182,9 +182,9 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             {/* Copyright */}
             <p className="text-gray-400 text-sm flex items-center space-x-2">
-              <span>© {currentYear} EduLux. All rights reserved. Made with</span>
+              <span>© {currentYear} Nexus. All rights reserved. Made with</span>
               <Heart className="w-4 h-4 fill-red-500 text-red-500 animate-pulse" />
-              <span>for learners</span>
+              <span>by AI ASHIK</span>
             </p>
 
             {/* Social Links */}
