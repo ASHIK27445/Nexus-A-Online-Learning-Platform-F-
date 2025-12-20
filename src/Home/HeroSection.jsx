@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowRight, Play, Sparkles, TrendingUp, Award } from 'lucide-react';
-
+import { Link } from 'react-router';
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-linear-to-br from-gray-900 via-black to-gray-900">
@@ -8,7 +8,7 @@ const HeroSection = () => {
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-150 h-150 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
       </div>
 
       {/* Floating Particles */}
@@ -49,13 +49,13 @@ const HeroSection = () => {
         <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed animate-fadeIn" style={{animationDelay: '0.4s'}}>
           Experience world-class education with cutting-edge courses designed by industry experts. Transform your career with luxury learning.
         </p>
-
+        
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-20 animate-fadeIn" style={{animationDelay: '0.6s'}}>
-          <button className="group px-10 py-5 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center space-x-3 hover:scale-105">
+          <Link to="/allCourses"  className="group px-10 py-5 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold text-lg hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center space-x-3 hover:scale-105">
             <span>Explore Courses</span>
             <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-          </button>
+          </Link>
           <button className="group px-10 py-5 bg-white/10 backdrop-blur-sm text-white rounded-full font-semibold text-lg border-2 border-white/20 hover:bg-white/20 hover:border-amber-400/50 transition-all duration-300 flex items-center space-x-3 hover:scale-105">
             <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
               <Play className="w-5 h-5 fill-white" />
@@ -71,7 +71,7 @@ const HeroSection = () => {
             { icon: Award, number: '200+', label: 'Premium Courses', color: 'from-amber-400 to-orange-600' },
             { icon: Sparkles, number: '98%', label: 'Success Rate', color: 'from-purple-400 to-pink-400' }
           ].map((stat, idx) => (
-            <div key={idx} className="group relative p-8 rounded-2xl bg-linear-to-br from-white/5 to-white/[0.02] border border-white/10 hover:border-amber-400/50 transition-all duration-500 hover:scale-105 backdrop-blur-sm">
+            <div key={idx} className="group relative p-8 rounded-2xl bg-linear-to-br from-white/5 to-white/2 border border-white/10 hover:border-amber-400/50 transition-all duration-500 hover:scale-105 backdrop-blur-sm">
               <div className="absolute inset-0 bg-linear-to-br from-amber-500/0 to-orange-500/0 group-hover:from-amber-500/5 group-hover:to-orange-500/5 rounded-2xl transition-all duration-500"></div>
               <div className="relative">
                 <div className={`w-12 h-12 bg-linear-to-br ${stat.color} rounded-xl flex items-center justify-center mb-4 mx-auto group-hover:rotate-12 transition-transform duration-300`}>
@@ -87,7 +87,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% {
             transform: translateY(0) translateX(0);

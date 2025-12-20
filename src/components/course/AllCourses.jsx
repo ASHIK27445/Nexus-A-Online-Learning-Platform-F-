@@ -43,14 +43,14 @@ const AllCourses = () => {
         <div className="text-center mb-16">
           <div className="inline-flex items-center space-x-2 px-6 py-3 bg-linear-to-r from-amber-500/10 to-orange-500/10 backdrop-blur-sm border border-amber-500/30 rounded-full mb-6">
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <span className="text-sm font-semibold text-amber-400">Premium Courses</span>
+            <span className="text-sm font-semibold text-amber-400">All Courses</span>
           </div>
           
           <h2 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
             <span className="text-white">Featured</span>
             <br />
             <span className="bg-linear-to-r from-amber-400 via-orange-500 to-amber-600 bg-clip-text text-transparent">
-              Elite Courses
+              All Courses
             </span>
           </h2>
           

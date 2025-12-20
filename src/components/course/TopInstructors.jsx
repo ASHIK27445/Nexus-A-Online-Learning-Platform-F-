@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Star, Users, BookOpen, Award, Linkedin, Twitter, Github } from 'lucide-react';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 const TopInstructors = () => {
     const [course, setCourses] = useState([])
@@ -9,77 +10,6 @@ const TopInstructors = () => {
             .then(res => setCourses(res.data))
             .catch(err=> console.log(err))
     })
-    console.log(course)
-  const instructors = [
-    {
-      id: 1,
-      name: "Dr. Sarah Chen",
-      title: "AI & Machine Learning Expert",
-      image: "https://i.pravatar.cc/400?img=5",
-      rating: 4.9,
-      students: "45K+",
-      courses: 24,
-      specialization: "Artificial Intelligence, Deep Learning",
-      bio: "Former Google AI researcher with 15+ years of experience in machine learning and neural networks",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#"
-      },
-      achievements: ["PhD in Computer Science", "Published 50+ Research Papers", "TEDx Speaker"]
-    },
-    {
-      id: 2,
-      name: "Michael Torres",
-      title: "Full-Stack Development Guru",
-      image: "https://i.pravatar.cc/400?img=12",
-      rating: 4.8,
-      students: "38K+",
-      courses: 18,
-      specialization: "Web Development, Cloud Architecture",
-      bio: "Ex-Meta senior engineer specializing in scalable web applications and modern JavaScript frameworks",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#"
-      },
-      achievements: ["15 Years at FAANG", "Open Source Contributor", "Tech Conference Speaker"]
-    },
-    {
-      id: 3,
-      name: "Emma Rodriguez",
-      title: "Digital Marketing Strategist",
-      image: "https://i.pravatar.cc/400?img=9",
-      rating: 4.9,
-      students: "52K+",
-      courses: 16,
-      specialization: "Growth Marketing, SEO, Content Strategy",
-      bio: "Built multi-million dollar marketing campaigns for Fortune 500 companies and startups",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#"
-      },
-      achievements: ["CMO at 3 Startups", "Forbes 30 Under 30", "Marketing Week Award"]
-    },
-    {
-      id: 4,
-      name: "Alex Kim",
-      title: "UI/UX Design Master",
-      image: "https://i.pravatar.cc/400?img=33",
-      rating: 4.9,
-      students: "41K+",
-      courses: 22,
-      specialization: "User Experience, Interface Design",
-      bio: "Award-winning designer who has crafted experiences for Apple, Airbnb, and Netflix",
-      social: {
-        linkedin: "#",
-        twitter: "#",
-        github: "#"
-      },
-      achievements: ["Dribbble Top Designer", "Awwwards Winner", "Design Systems Expert"]
-    }
-  ];
 
   return (
     <section className="relative py-24 bg-linear-to-b from-black via-gray-900 to-black overflow-hidden">
@@ -112,7 +42,10 @@ const TopInstructors = () => {
 
         {/* Instructors Grid - 4 Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {course.map((c, index) => (
+          {course
+          .sort((a,b)=> b.rating - a.rating)
+          .slice(0,8)
+          .map((c, index) => (
             <div
               key={c?._id}
               className="group relative opacity-0 animate-fadeIn"
@@ -140,13 +73,13 @@ const TopInstructors = () => {
 
                   {/* Social Links */}
                   <div className="absolute bottom-4 left-4 right-4 flex items-center justify-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-colors duration-300">
+                    <a href="https://www.linkedin.com/" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-500 rounded-full flex items-center justify-center transition-colors duration-300">
                       <Linkedin className="w-5 h-5 text-white" />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-300 rounded-full flex items-center justify-center transition-colors duration-300">
+                    <a href="https://www.x.com/" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-blue-300 rounded-full flex items-center justify-center transition-colors duration-300">
                       <Twitter className="w-5 h-5 text-white" />
                     </a>
-                    <a href="#" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-gray-900 rounded-full flex items-center justify-center transition-colors duration-300">
+                    <a href="https://www.github.com/" className="w-10 h-10 bg-white/10 backdrop-blur-sm hover:bg-gray-900 rounded-full flex items-center justify-center transition-colors duration-300">
                       <Github className="w-5 h-5 text-white" />
                     </a>
                   </div>
@@ -185,11 +118,6 @@ const TopInstructors = () => {
                     </div>
                   </div>
 
-
-                  {/* View Profile Button */}
-                  <button className="w-full py-3 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-amber-500/50 transition-all duration-300">
-                    View Profile
-                  </button>
                 </div>
               </div>
             </div>
@@ -199,18 +127,18 @@ const TopInstructors = () => {
         {/* CTA Section */}
         <div className="mt-20 text-center p-12 rounded-3xl bg-linear-to-r from-amber-500/10 to-purple-500/10 border border-amber-500/20 backdrop-blur-sm">
           <h3 className="text-3xl font-bold text-white mb-4">
-            Want to Become an c?
+            Want to Become an Instructor?
           </h3>
           <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
             Join our elite community of educators and share your expertise with students around the globe
           </p>
-          <button className="px-8 py-4 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
+          <Link to='https://www.gmail.com/' className="px-8 py-4 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
             Apply to Teach
-          </button>
+          </Link>
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes fadeIn {
           from {
             opacity: 0;

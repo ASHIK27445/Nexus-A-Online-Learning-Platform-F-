@@ -66,10 +66,6 @@ const Navbar = () => {
                         My Enroll Courses
                         <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
                         </NavLink>
-                        <NavLink to="/topInstructors" className="text-white hover:text-blue-400 transition-all font-semibold relative group">
-                        Top Instructors
-                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
-                        </NavLink>
                         {user && (
                         <div className="relative">
                             <button

@@ -7,7 +7,6 @@ const App = () => {
     <div>
       <Navbar></Navbar>
       <Outlet></Outlet>
-
       <footer>
               <Footer></Footer>
       </footer>

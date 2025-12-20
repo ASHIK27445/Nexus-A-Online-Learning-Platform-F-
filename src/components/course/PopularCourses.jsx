@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles, ArrowRight} from 'lucide-react';
 import CourseCard from './CourseCard';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 const PopularCourses = () => {
   const [courses, setCourses] = useState([])
@@ -40,10 +41,6 @@ const PopularCourses = () => {
             Discover our most sought-after courses, handpicked by industry experts and loved by thousands of students worldwide
           </p>
 
-          <button className="group inline-flex items-center space-x-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/50 rounded-full text-white transition-all duration-300">
-            <span>View All Courses</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
         </div>
 
         {/* Courses Grid */}
@@ -62,9 +59,10 @@ const PopularCourses = () => {
         {/* Bottom CTA */}
         <div className="mt-16 text-center">
           <p className="text-gray-400 mb-4">Can't find what you're looking for?</p>
-          <button className="px-8 py-4 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
-            Request a Course
-          </button>
+          <Link to="/allCourses" className="group inline-flex items-center space-x-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/50 rounded-full text-white transition-all duration-300">
+            <span>View All Courses</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
 

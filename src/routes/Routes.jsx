@@ -47,9 +47,6 @@ export const router = createBrowserRouter([
             },
             {
                 path:'/myEnrollCourse', element:<PrivateRouter><EnrolledCourses></EnrolledCourses></PrivateRouter> 
-            },
-            {
-                path:'/topInstructors', Component: TopInstructors
             }
         ]
     }
