@@ -1,5 +1,6 @@
 import React from 'react';
 import { BookOpen, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight, Heart } from 'lucide-react';
+import { Link } from 'react-router';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -24,8 +25,8 @@ const Footer = () => {
       { name: "Events", href: "#" }
     ],
     legal: [
-      { name: "Terms of Service", href: "#" },
-      { name: "Privacy Policy", href: "#" },
+      { name: "Terms of Service", href: "/termsofservice" },
+      { name: "Privacy Policy", href: "/privacyPolicy" },
       { name: "Cookie Policy", href: "#" },
       { name: "Licenses", href: "#" }
     ]
@@ -190,13 +191,13 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex items-center space-x-3">
               {socialLinks.map((social, idx) => (
-                <a
+                <Link
                   key={idx}
-                  href={social.href}
+                  to={social.href}
                   className={`w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-gray-400 hover:text-white ${social.color} transition-all duration-300 hover:scale-110`}
                 >
                   <social.icon className="w-5 h-5" />
-                </a>
+                </Link>
               ))}
             </div>
           </div>

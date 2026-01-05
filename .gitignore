@@ -7,3 +7,5 @@ src/Demo.jsx
 src/firebase/firebase.init.js
 
 .env.local
+
+dist
