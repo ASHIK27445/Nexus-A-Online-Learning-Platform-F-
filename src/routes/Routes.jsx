@@ -16,6 +16,7 @@ import TopInstructors from "../components/course/TopInstructors";
 import ErrorPage from "../components/Error/ErrorPage";
 import TermsOfService from "../components/Others/TermsOfService";
 import PrivacyPolicy from "../components/Others/PrivacyPolicy";
+import AboutUs from "../components/Others/AboutUs";
 
 export const router = createBrowserRouter([
     {
@@ -56,6 +57,9 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/privacyPolicy', Component: PrivacyPolicy
+            },
+            {
+                path: '/aboutUs', Component: AboutUs
             }
         ]
     },
