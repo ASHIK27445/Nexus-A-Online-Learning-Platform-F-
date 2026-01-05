@@ -12,7 +12,7 @@ const UpdateCourse = () => {
   }])
 
   useEffect(()=>{
-    axios.get(`http://localhost:3000/myCourse/${id}`)
+    axios.get(`https://backend-olp.vercel.app/myCourse/${id}`)
       .then(res => {
         setMyCourse(res.data)
         setFeatures(res.data.features || [{ title: "", description: "" }])
@@ -65,7 +65,7 @@ const UpdateCourse = () => {
 
       console.log(updatedCourse)
 
-      axios.put(`http://localhost:3000/updatedCourse/${id}`, updatedCourse)
+      axios.put(`https://backend-olp.vercel.app/updatedCourse/${id}`, updatedCourse)
         .then(res=> {
           console.log(res.data)
             Swal.fire({

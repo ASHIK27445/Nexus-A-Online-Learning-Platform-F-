@@ -90,7 +90,7 @@ const WhyChooseUs = () => {
               Why Choose
             </span>
             <br />
-            <span className="text-white">EduLux Premium</span>
+            <span className="text-white">Nexus Premium</span>
           </h2>
           
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -103,7 +103,7 @@ const WhyChooseUs = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="group relative bg-linear-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 backdrop-blur-sm"
+              className="group relative bg-linear-to-br from-white/5 to-white/2 border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-500 hover:scale-105 hover:-translate-y-2 backdrop-blur-sm"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <div className="absolute inset-0 bg-linear-to-br from-amber-500/0 to-orange-500/0 group-hover:from-amber-500/5 group-hover:to-orange-500/5 rounded-3xl transition-all duration-500"></div>

@@ -5,3 +5,5 @@ src/Demo.jsx
 .env
 
 src/firebase/firebase.init.js
+
+.env.local

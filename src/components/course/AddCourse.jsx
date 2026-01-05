@@ -75,9 +75,9 @@ const AddCourse = () => {
         }
         }
 
-        console.log(courseData)
 
-        axios.post('http://localhost:3000/dashboard/addCourse', courseData)
+
+        axios.post('https://backend-olp.vercel.app/dashboard/addCourse', courseData)
           .then(res => {
             console.log(res.data)
             Swal.fire({
@@ -156,7 +156,7 @@ const AddCourse = () => {
           })
     }
     return(
-    <div className="min-h-screen mt-20 bg-linear-to-br from-gray-950 via-neutral-950 to-stone-950 flex items-center justify-center p-6 relative">
+    <div className="min-h-screen pt-35 pb-20 bg-linear-to-br from-gray-950 via-neutral-950 to-stone-950 flex items-center justify-center px-6 relative">
 
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
 

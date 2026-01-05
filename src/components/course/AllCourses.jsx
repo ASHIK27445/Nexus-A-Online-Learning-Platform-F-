@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sparkles, Loader } from "lucide-react";
 import CourseCard from "./CourseCard";
 
 const AllCourses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectCategory, setSelectCategory] = useState("")
+  
 
   useEffect(() => {
-    fetch("http://localhost:3000/allCourses")
+    fetch("https://backend-olp.vercel.app/allCourses")
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
@@ -18,6 +20,23 @@ const AllCourses = () => {
         setLoading(false);
       });
   }, []);
+
+  const uniqueCategories = useMemo(()=>
+    [...new Set(courses.map(course=>course?.category).filter(Boolean))],
+    [courses]
+  )
+
+  const handleSelectCategory = (category) =>{
+    setSelectCategory(category)
+  }
+
+  const filteredCourses = useMemo(()=>{
+    return selectCategory 
+    ? 
+    courses.filter(courses=>{
+return courses?.category === selectCategory}) :
+      courses
+  }, [selectCategory, courses])
 
   if (loading) {
     return (
@@ -58,11 +77,36 @@ const AllCourses = () => {
             Curated by industry leaders. Designed for excellence. Built for your success.
           </p>
         </div>
+
+        {/* Category Filter Dropdown */}
+        <div className="mb-8 flex items-center justify-between border-2 border-amber-50 rounded-2xl shadow-lg p-6">
+          <div className="flex items-center gap-4 flex-1">
+            <label className="text-sm font-medium text-white whitespace-nowrap">
+              Filter by Category:
+            </label>
+            <select
+              value={selectCategory || ''}
+              onChange={(e) => handleSelectCategory(e.target.value)}
+              className="flex-1 max-w-xs px-4 py-2 border text-white border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-50 focus:border-black outline-none transition-all"
+            >
+              <option value="" className="text-black">All Categories</option>
+              {uniqueCategories.map((category) => (
+                <option key={category} value={category} className="text-black">
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="text-sm text-white ml-4">
+            <span className="font-semibold text-white">{filteredCourses.length}</span> course{filteredCourses.length !== 1 ? 's' : ''}
+          </div>
+        </div>
         
         {/* Courses Grid */}
-        {courses.length > 0 ? (
+        {filteredCourses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {courses.map((course, index) => (
+            {filteredCourses
+            .map((course, index) => (
               <div
                 key={course?._id || index}
                 className="animate-fadeIn"

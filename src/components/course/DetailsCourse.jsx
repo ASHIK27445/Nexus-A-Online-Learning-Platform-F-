@@ -14,13 +14,13 @@ const DetailsCourse = () => {
   const [isEnrolled, setIsEnrolled] = useState(false)
 
   useEffect(()=>{
-    axios.get(`http://localhost:3000/course/${id}`)
+    axios.get(`https://backend-olp.vercel.app/course/${id}`)
       .then(res => setCourse(res.data))
       .catch(err=> console.log(err))
   },[id])
   
   useEffect(()=>{
-    axios.get(`http://localhost:3000/enroll/check?email=${user?.email}&courseID=${course?._id}`)
+    axios.get(`https://backend-olp.vercel.app/enroll/check?email=${user?.email}&courseID=${course?._id}`)
       .then(res=> setIsEnrolled(res.data.enrolled))
       .catch(err=> console.log(err))
   },[user?.email, course?._id])
@@ -30,9 +30,8 @@ const DetailsCourse = () => {
       email: user?.email,
       course: course
     }
-    console.log(enrollData)
 
-    axios.post('http://localhost:3000/enroll', enrollData)
+    axios.post('https://backend-olp.vercel.app/enroll', enrollData)
       .then((res) => {  
         setIsEnrolled(true)
         console.log(res.data)
@@ -46,7 +45,7 @@ const DetailsCourse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-gray-900 mt-20">
+    <div className="min-h-screen bg-linear-to-b from-gray-900 via-black to-gray-900 pb-20">
       {/* Toast Notification */}
       {showToast && (
         <div className="fixed top-8 right-8 z-50 animate-slideIn">
@@ -66,16 +65,16 @@ const DetailsCourse = () => {
       )}
 
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-linear-to-br from-gray-900 via-black to-purple-900/20">
+      <div className="relative overflow-hidden bg-linear-to-br from-gray-900 via-black to-purple-900/20 pt-15">
         <div className="absolute inset-0">
-          <img src={course?.image} alt={course?.title} className="w-full h-full object-cover opacity-20" />
+          <img src={course?.imageURL} alt={course?.title} className="w-full h-full object-cover opacity-20" />
           <div className="absolute inset-0 bg-linear-to-t from-black via-black/80 to-transparent"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 py-16">
-          <div className="flex justify-between items-center gap-10">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
             {/* Left Content */}
-            <div className="w-1/2">
+            <div className="w-full lg:w-1/2">
               {/* Badge */}
               <div className="inline-flex items-center space-x-2 px-4 py-2 bg-amber-500/20 border border-amber-500/50 rounded-full mb-6">
                 <TrendingUp className="w-4 h-4 text-amber-400" />
@@ -94,7 +93,7 @@ const DetailsCourse = () => {
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">{course?.description}</p>
 
               {/* Meta Info */}
-              <div className="flex flex-wrap items-center gap-6 mb-8">
+              <div className="flex flex-col md:flex-row flex-wrap justify-center md:justify-start md:items-center gap-4 md:gap-6 mb-8">
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
@@ -130,14 +129,14 @@ const DetailsCourse = () => {
             </div>
 
             {/* Right Sidebar - Course? Card */}
-            <div className="w-2/5">
+            <div className="w-full lg:w-2/5">
               <h1 className="text-4xl md:text-5xl font-bold text-center text-white mb-4 leading-tight">
                 Enroll Now!
               </h1>
               <div className="sticky top-8 bg-linear-to-br from-gray-900 to-black border border-amber-500/30 rounded-3xl overflow-hidden shadow-2xl shadow-amber-500/20">
                 {/* Preview Image */}
                 <div className="relative h-48">
-                  <img src={course?.image} alt={course?.title} className="w-full h-full object-cover" />
+                  <img src={course?.imageURL} alt={course?.title} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
                     <div className="w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform shadow-2xl shadow-amber-500/50">
                       <Play className="w-8 h-8 text-white ml-1" />
@@ -154,7 +153,7 @@ const DetailsCourse = () => {
                       <span className="text-4xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">
                         ${course?.price}
                       </span>
-                      <span className="text-xl text-gray-500 line-through">${course?.originalPrice}</span>
+                      <span className="text-xl text-gray-500 line-through">${course?.oprice}</span>
                     </div>
                   </div>
 
@@ -192,8 +191,8 @@ const DetailsCourse = () => {
                   <Check className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-400 text-sm">{feature.description}</p>
+                  <h3 className="text-lg font-bold text-white mb-2">{feature?.title}</h3>
+                  <p className="text-gray-400 text-sm">{feature?.description}</p>
                 </div>
               </div>
             ))}

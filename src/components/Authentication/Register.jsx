@@ -91,7 +91,7 @@ const Register = () => {
     }
 
     return (
-        <div className="min-h-screen bg-linear-to-b from-black via-gray-900 to-black py-20 px-4 relative overflow-hidden mt-20">
+        <div className="min-h-screen bg-linear-to-b from-black via-gray-900 to-black pb-20 pt-35 px-4 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-20 right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-pulse"></div>

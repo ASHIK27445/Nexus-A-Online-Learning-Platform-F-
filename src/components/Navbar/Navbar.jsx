@@ -37,7 +37,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Desktop Navigation */}
-                    <div className="hidden md:flex items-center space-x-8">
+                    <div className="hidden  md:flex items-center space-x-8">
                         <NavLink to="/" className={({ isActive }) => 
                         `transition-all font-semibold relative group ${isActive ? 'text-blue-400 underline underline-offset-4' :
                         'text-white hover:text-blue-400'}`}>
@@ -112,28 +112,51 @@ const Navbar = () => {
                 </div>
 
                 {/* Mobile Navigation */}
-                {/* {mobileMenuOpen && (
-                <div className="md:hidden mt-6 pb-4 bg-linear-to-br from-gray-900 to-black rounded-2xl p-6 border border-purple-500/20">
-                    <a href="#home" className="block py-3 text-white hover:text-blue-400 font-semibold">Home</a>
-                    <a href="#courses" className="block py-3 text-white hover:text-blue-400 font-semibold">Courses</a>
-                    {isAuthenticated && (
+                 {mobileMenuOpen && (
+                <div className="md:hidden flex-col mt-6 pb-4 bg-linear-to-br from-gray-900 to-black rounded-2xl p-6 border border-purple-500/20">
+                        <NavLink to="/" className={({ isActive }) => 
+                        `transition-all font-semibold block py-3 px-6 hover:bg-white/10 relative group ${isActive ? 'text-blue-400 underline underline-offset-4' :
+                        'text-white hover:text-blue-400'}`}>
+                        Home
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
+                        </NavLink>
+                        <NavLink to="/allCourses" className={({isActive})=>`transition-all font-semibold block py-3 px-6 hover:bg-white/10 relative group ${isActive ? 'text-blue-400 underline underline-offset-4':
+                            'text-white hover:text-blue-400'
+                        }`}>
+                        Courses
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
+                        </NavLink>
+                        <NavLink to="/login" className={({isActive})=>`transition-all font-semibold block py-3 px-6 hover:bg-white/10 relative group ${isActive ? 'text-blue-400 underline underline-offset-4':
+                            'text-white hover:text-blue-400'
+                        }`}>
+                        Login
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
+                        </NavLink>
+                        <NavLink to="/register" className={({isActive})=>`transition-all font-semibold block py-3 px-6 hover:bg-white/10 relative group ${isActive ? 'text-blue-400 underline underline-offset-4':
+                            'text-white hover:text-blue-400'
+                        }`}>
+                        Register
+                        <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all"></span>
+                        </NavLink>
+                    {user && (
                     <>
-                        <a href="#enrolled" className="block py-3 text-white hover:text-blue-400 font-semibold">My Enrolled Courses</a>
-                        <a href="#add-course" className="block py-3 text-white hover:text-blue-400 font-semibold">Add Course</a>
-                        <a href="#my-courses" className="block py-3 text-white hover:text-blue-400 font-semibold">My Added Courses</a>
+                                <NavLink to="/myCourses" className={({isActive}) =>`relative block px-6 py-3 hover:bg-white/10 transition-all ${isActive ? 'text-blue-400 underline underline-offset-4' : 'text-white'}`}>My Courses</NavLink>
+                                <NavLink to="/dashboard/addCourse" className={({isActive}) =>`relative block px-6 py-3 hover:bg-white/10 transition-all ${isActive ? 'text-blue-400 underline underline-offset-4' : 'text-white'}`}>Add Course</NavLink>
+                                <NavLink to="/myEnrollCourse"  className={({isActive}) =>`relative block px-6 py-3 hover:bg-white/10 transition-all ${isActive ? 'text-blue-400 underline underline-offset-4' : 'text-white'}`}>My Enroll Courses</NavLink>
                     </>
                     )}
-                    {isAuthenticated ? (
-                    <button onClick={onLogout} className="mt-4 w-full bg-linear-to-r from-red-500 to-pink-500 text-white px-6 py-3 rounded-full font-bold">
+                    {user ? (
+                    <button onClick={handleLogout} className=" cursor-pointer mt-4 w-full bg-linear-to-r from-red-800 to-blue-800 text-white px-6 py-3 rounded-full font-bold">
                         Logout
                     </button>
                     ) : (
-                    <button onClick={onLogin} className="mt-4 w-full bg-linear-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full font-bold">
-                        Login
-                    </button>
+                    <Link to="/login">
+                        <button  className="cursor-pointer mt-4 w-full bg-linear-to-r from-blue-800 to-green-800 text-white px-6 py-3 rounded-full font-bold">Login
+                        </button>
+                    </Link>
                     )}
                 </div>
-                )} */}
+                )} 
 
             </nav>
             </header>

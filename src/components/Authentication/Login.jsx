@@ -39,7 +39,11 @@ const Login = () => {
                 }); 
         } else {
             toast.error('User is already logged in', {
-                autoClose: 1200
+                autoClose: 1200,
+                style: {
+                    background:'black',
+                    color:'red'
+                }
             });
         }
     };
@@ -83,7 +87,7 @@ const Login = () => {
     } 
 
     return (
-        <div className="min-h-screen bg-linear-to-b from-black via-gray-900 to-black py-20 px-4 relative overflow-hidden mt-20">
+        <div className="min-h-screen bg-linear-to-b from-black via-gray-900 to-black pb-20 pt-35 px-4 relative overflow-hidden">
             {/* Background Elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div 

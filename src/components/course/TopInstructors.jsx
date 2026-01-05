@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 const TopInstructors = () => {
     const [course, setCourses] = useState([])
     useEffect(()=>{
-        axios.get('http://localhost:3000/topInstructors')
+        axios.get('https://backend-olp.vercel.app/topInstructors')
             .then(res => setCourses(res.data))
             .catch(err=> console.log(err))
     })
@@ -41,7 +41,7 @@ const TopInstructors = () => {
         </div>
 
         {/* Instructors Grid - 4 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {course
           .sort((a,b)=> b.rating - a.rating)
           .slice(0,8)

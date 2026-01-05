@@ -13,7 +13,7 @@ const MyCourses = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/myCourses/${user?.email}`)
+    axios.get(`https://backend-olp.vercel.app/myCourses/${user?.email}`)
       .then(res => {
         setMyCourses(res.data);
         setIsLoaded(true);
@@ -26,7 +26,7 @@ const MyCourses = () => {
 
 
   const handleDelete = (courseId) => {
-    axios.delete(`http://localhost:3000/delete/${courseId}`)
+    axios.delete(`https://backend-olp.vercel.app/delete/${courseId}`)
       .then(res=> {console.log(res.data)
         const filterData = myCourses.filter(course => course._id != courseId)
         setMyCourses(filterData)

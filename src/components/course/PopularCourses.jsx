@@ -8,7 +8,7 @@ const PopularCourses = () => {
   const [courses, setCourses] = useState([])
 
   useEffect(()=>{
-    axios.get('http://localhost:3000/course/popular')
+    axios.get('https://backend-olp.vercel.app/course/popular')
       .then(res => {
         setCourses(res.data)
       })
@@ -44,7 +44,7 @@ const PopularCourses = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {courses.slice(0,6).map((course, index) => (
             <div
               key={course._id}

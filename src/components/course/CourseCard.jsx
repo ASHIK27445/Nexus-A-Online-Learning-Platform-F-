@@ -89,18 +89,18 @@ const CourseCard = ({ course }) => {
         </div>
 
         {/* Price and CTA */}
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <div>
-            <span className="text-3xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">
+            <span className="text-2xl md:text-3xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">
               ${course?.price}
             </span>
             {course?.oprice && (
-              <span className="text-gray-500 line-through ml-2 text-sm">
+              <span className="text-gray-700 bold md:text-gray-500 line-through ml-2 text-[12px] md:text-sm">
                 ${course?.oprice}
               </span>
             )}
           </div>
-          <Link to={`/viewDetails/${course?._id}`} className="px-6 py-2.5 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
+          <Link to={`/viewDetails/${course?._id}`} className="px-4 md:px-6 py-2.5 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold text-sm hover:shadow-lg hover:shadow-amber-500/50 transition-all duration-300 hover:scale-105">
             View Details
           </Link>
         </div>

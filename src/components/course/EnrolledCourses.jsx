@@ -16,7 +16,7 @@ const EnrolledCourses = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/myenroll/${user?.email}`)
+    axios.get(`https://backend-olp.vercel.app/myenroll/${user?.email}`)
       .then(res => {
         setEnrolledCourses(res.data.course || []);
         setIsLoaded(true);
