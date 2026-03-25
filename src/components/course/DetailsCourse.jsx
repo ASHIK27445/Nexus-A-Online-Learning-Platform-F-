@@ -3,7 +3,7 @@ import {
   Star, Users, BookOpen, Clock, Play, X, Check, TrendingUp
 } from 'lucide-react';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { AuthContext } from '../../Auth/AuthContext';
 
 const DetailsCourse = () => {
@@ -18,7 +18,7 @@ const DetailsCourse = () => {
       .then(res => setCourse(res.data))
       .catch(err=> console.log(err))
   },[id])
-  
+  console.log(course)
   useEffect(()=>{
     axios.get(`https://backend-olp.vercel.app/enroll/check?email=${user?.email}&courseID=${course?._id}`)
       .then(res=> setIsEnrolled(res.data.enrolled))
@@ -199,6 +199,20 @@ const DetailsCourse = () => {
           </div>
         </div>
       )}
+
+      {/**JWT TOken */}
+      {
+        console.log(course?.title === 'JWT Token')
+      }
+      {
+        course?.title === 'JWT Token' && isEnrolled && (
+        <div className="text-center mt-5">
+          <Link
+            to="/jwt-token"
+            className="bg-amber-500 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg text-xl transition-colors duration-300">
+            Explore the course
+          </Link>
+        </div>)}
 
       <style>{`
         @keyframes slideIn {

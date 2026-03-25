@@ -1,2 +1,24 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@tailwind utilities;
+
+
+/* Remove step number (circle) */
+.steps .step::after {
+  content: none !important;
+}
+
+/* Remove step icon (if any) */
+.steps .step > .step-icon {
+  display: none !important;
+}
+
+/* Remove step connector line */
+.steps .step::before {
+  content: none !important;
+}
+
+/* Stop counter */
+.steps .step {
+  counter-increment: none !important;
+}

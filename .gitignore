@@ -9,3 +9,5 @@ src/firebase/firebase.init.js
 .env.local
 
 dist
+
+tailwind.config.js

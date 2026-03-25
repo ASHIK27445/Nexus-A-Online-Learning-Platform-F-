@@ -17,6 +17,7 @@ import ErrorPage from "../components/Error/ErrorPage";
 import TermsOfService from "../components/Others/TermsOfService";
 import PrivacyPolicy from "../components/Others/PrivacyPolicy";
 import AboutUs from "../components/Others/AboutUs";
+import JWTMasteryCourse from "../components/course/JWTMasteryCourse";
 
 export const router = createBrowserRouter([
     {
@@ -65,5 +66,8 @@ export const router = createBrowserRouter([
     },
     {
         path: '*', Component: ErrorPage
+    },
+    {
+        path: '/jwt-token', Component: JWTMasteryCourse
     }
 ])
