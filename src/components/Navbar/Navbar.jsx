@@ -34,25 +34,34 @@ const navLinkClass = ({ isActive }) =>
   `font-medium transition-opacity ${FV} ${isActive ? "opacity-100" : "opacity-80 hover:opacity-100"}`;
 
 const Logo = () => (
-    <Link to="/" aria-label="Nexus home" className={FV}>
-      <svg viewBox="0 -10 32 42" aria-hidden="true" className="w-7 block">
-        {/* crown */}
-        <path
-          d="M3 -1L2 -8L5.5 -5L8 -9L10.5 -5L14 -8L13 -1Z"
-          fill="#c8ff00"
-          stroke="#c8ff00"
-          strokeWidth="1.5"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M4 3h8v9l13 5-13 5v7H4z"
-          fill="#c8ff00"
-          stroke="#c8ff00"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </Link>
+  <Link
+    to="/"
+    aria-label="Nexus home"
+    className={`${FV} flex items-center gap-2`}
+  >
+    <svg viewBox="0 -10 32 42" aria-hidden="true" className="w-7 block">
+      {/* crown */}
+      <path
+        d="M3 -1L2 -8L5.5 -5L8 -9L10.5 -5L14 -8L13 -1Z"
+        fill="#c8ff00"
+        stroke="#c8ff00"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+
+      <path
+        d="M4 3h8v9l13 5-13 5v7H4z"
+        fill="#c8ff00"
+        stroke="#c8ff00"
+        strokeWidth="3"
+        strokeLinejoin="round"
+      />
+    </svg>
+
+    <span className="text-xl font-bold tracking-tight">
+      Nexus
+    </span>
+  </Link>
 );
 
 const Navbar = () => {
@@ -99,7 +108,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0033e0] text-white font-[Poppins,system-ui,-apple-system,'Segoe_UI',sans-serif]">
+    <header className="sticky top-0 z-50 bg-[#6D28D9] text-white font-[Poppins,system-ui,-apple-system,'Segoe_UI',sans-serif]">
       <div className={WRAP}>
         <nav
           aria-label="Main"
@@ -140,7 +149,7 @@ const Navbar = () => {
                           onClick={closeMenus}
                           className={({ isActive }) =>
                             `block px-5 py-3 text-sm hover:bg-[#f1f2f4] ${
-                              isActive ? "text-[#0033e0] font-medium" : ""
+                              isActive ? "text-[#6D28D9] font-medium" : ""
                             }`
                           }
                         >

@@ -30,12 +30,12 @@ const ROUTES = {
 };
 
 const FV =
-  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#6D28D9] focus-visible:outline-offset-[3px]";
 const WRAP = "max-w-[1160px] mx-auto px-5";
 const BTN_ACC = `inline-flex items-center gap-2 border-0 rounded-full px-6 py-3 font-bold text-[15px] cursor-pointer bg-[#c8ff00] text-[#14163b] ${FV}`;
 const BTN_GHOST = `inline-flex items-center gap-2 rounded-full px-6 py-3 font-bold text-[15px] cursor-pointer border-[1.5px] border-white/40 bg-white/10 text-white ${FV}`;
 const GRID =
-  "bg-[#0033e0] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
+  "bg-[#6D28D9] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
 const H2 = "m-0 font-bold leading-[1.1] tracking-[-.02em] text-[clamp(28px,4vw,42px)]";
 const CTR_P = "mt-4 mx-auto text-[#5a5d80] max-w-[70ch]";
 const SECTION = "py-20 max-[860px]:py-14";
@@ -227,7 +227,7 @@ function CourseCard({ course, i }) {
       <div className="p-[18px] flex flex-col gap-2 flex-1">
         <div className="flex justify-between items-center gap-2">
           {course.category && (
-            <span className="text-[11px] font-semibold text-[#0033e0] bg-[#eef2ff] rounded-full px-2.5 py-1 truncate">
+            <span className="text-[11px] font-semibold text-[#6D28D9] bg-[#eef2ff] rounded-full px-2.5 py-1 truncate">
               {course.category}
             </span>
           )}
@@ -368,7 +368,7 @@ function ProfessionalGrowth() {
             <div className="flex gap-10 mt-7">
               {growthStats.map(([value, label]) => (
                 <div key={label}>
-                  <b className="block font-semibold text-[28px] leading-[1.1] text-[#0033e0]">
+                  <b className="block font-semibold text-[28px] leading-[1.1] text-[#6D28D9]">
                     {value}
                   </b>
                   <span className="text-sm text-[#5a5d80]">{label}</span>
@@ -395,7 +395,7 @@ function ProfessionalGrowth() {
           <div className={VISUAL}>
             <div className="absolute left-1/2 top-[60px] w-[380px] h-[380px] -ml-[190px] rounded-full bg-[#c8ff00]" />
             <Portrait src={avatar(15, 500)} className="w-[190px] h-[200px] -ml-[95px]" />
-            <div className={`${MINI} left-4 top-6 !bg-[#0033e0] !text-white`}>
+            <div className={`${MINI} left-4 top-6 !bg-[#6D28D9] !text-white`}>
               <b className="font-medium">Earn From Your Courses</b>
               <small className="block text-xs text-[#cfd8ff]">Monetize your expertise</small>
             </div>
@@ -413,7 +413,7 @@ function ProfessionalGrowth() {
             <ul className="list-none p-0 mt-[22px] mb-0 grid gap-3">
               {perks.map((perk) => (
                 <li key={perk}>
-                  <span className="inline-grid place-items-center w-5 h-5 rounded-full bg-[#0033e0] text-white mr-3">
+                  <span className="inline-grid place-items-center w-5 h-5 rounded-full bg-[#6D28D9] text-white mr-3">
                     <Check className="w-3 h-3" aria-hidden="true" />
                   </span>
                   {perk}
@@ -552,7 +552,7 @@ function InstructorCard({ item }) {
           />
         )}
         <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-white text-[#14163b] rounded-full px-3 py-1 text-sm font-semibold">
-          <Star className="w-3.5 h-3.5 fill-[#0033e0] text-[#0033e0]" aria-hidden="true" />
+          <Star className="w-3.5 h-3.5 fill-[#6D28D9] text-[#6D28D9]" aria-hidden="true" />
           {item.rating}
         </span>
         <div className="absolute bottom-3 left-3 right-3 flex justify-center gap-2 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-300">
@@ -573,11 +573,11 @@ function InstructorCard({ item }) {
         <h3 className="m-0 text-lg font-bold leading-[1.2] tracking-[-.01em]">
           {item.instructor?.name}
         </h3>
-        <p className="m-0 mt-1 mb-4 text-sm text-[#0033e0]">{item.instructor?.title}</p>
+        <p className="m-0 mt-1 mb-4 text-sm text-[#6D28D9]">{item.instructor?.title}</p>
         <div className="grid grid-cols-3 gap-3 mt-auto pt-4 border-t border-[#dfe1f5] text-center">
           {stats.map(({ Icon, value, label }) => (
             <div key={label}>
-              <Icon className="w-4 h-4 mx-auto text-[#0033e0]" aria-hidden="true" />
+              <Icon className="w-4 h-4 mx-auto text-[#6D28D9]" aria-hidden="true" />
               <div className="text-base font-bold">{value}</div>
               <div className="text-xs text-[#5a5d80]">{label}</div>
             </div>
@@ -664,7 +664,7 @@ function Testimonials() {
               />
               <div>
                 <b className="font-bold">{q.name}</b>
-                <small className="block text-[13.33px] text-[#0033e0]">{q.role}</small>
+                <small className="block text-[13.33px] text-[#6D28D9]">{q.role}</small>
               </div>
               <blockquote className="m-0 text-[#5a5d80] text-sm">“{q.text}”</blockquote>
             </figure>

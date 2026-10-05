@@ -14,9 +14,9 @@ import {
 } from "lucide-react";
 
 const GRID =
-  "bg-[#0033e0] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
+  "bg-[#6D28D9] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
 const FV =
-  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#6D28D9] focus-visible:outline-offset-[3px]";
 const WRAP = "max-w-[1240px] mx-auto px-5";
 const BTN_ACC = `inline-block border-0 rounded-full px-6 py-3 font-semibold text-[15px] cursor-pointer bg-[#c8ff00] text-[#14163b] ${FV}`;
 const OUTLINE_CHIP = `inline-flex items-center gap-2 rounded-full border-[1.5px] border-[#dfe1f5] bg-white text-[#333] px-4.5 py-3 text-[15px] font-medium cursor-pointer ${FV}`;
@@ -89,7 +89,7 @@ function CourseCard({ course, i }) {
       )}
 
       {instructor?.name && (
-        <span className="relative z-10 mt-2 inline-flex items-center gap-2 text-xs text-[#0033e0] self-start">
+        <span className="relative z-10 mt-2 inline-flex items-center gap-2 text-xs text-[#6D28D9] self-start">
           {instructor.avatar && (
             <img
               src={instructor.avatar}
@@ -129,7 +129,7 @@ function CourseCard({ course, i }) {
 
       <div className="flex items-center justify-between gap-2 mt-2.5">
         <div className="flex items-baseline gap-1">
-          <b className="text-xl font-bold text-[#0033e0]">${course?.price}</b>
+          <b className="text-xl font-bold text-[#6D28D9]">${course?.price}</b>
           {course?.oprice && (
             <span className="text-xs text-[#8a8ea8] line-through">${course.oprice}</span>
           )}
@@ -297,7 +297,7 @@ const AllCourses = () => {
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-24 text-[#5a5d80]">
-              <Loader className="w-12 h-12 text-[#0033e0] animate-spin mb-4" aria-hidden="true" />
+              <Loader className="w-12 h-12 text-[#6D28D9] animate-spin mb-4" aria-hidden="true" />
               <p className="m-0 text-base">Loading courses...</p>
             </div>
           ) : filteredCourses.length > 0 ? (

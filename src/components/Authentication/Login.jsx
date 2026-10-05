@@ -7,9 +7,9 @@ import { AuthContext } from "../../Auth/AuthContext";
 const POP = "font-[family-name:Poppins,system-ui,sans-serif]";
 const SAT = "font-[family-name:Satoshi,Poppins,system-ui,sans-serif]";
 const FV =
-  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#6D28D9] focus-visible:outline-offset-[3px]";
 const GRID =
-  "bg-[#0033e0] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
+  "bg-[#6D28D9] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
 const PAD_X = "px-[clamp(20px,8.3vw,108px)]";
 const LABEL = "block text-sm leading-[21px] text-[#222] mb-[5px]";
 const INPUT = `block w-full h-[47px] border border-[#e4e4ec] rounded-[14px] px-[21px] text-base bg-white text-[#222] placeholder:text-[#9a9aa8] ${FV}`;
@@ -116,7 +116,7 @@ const CourseCard = ({ title, thumb, className }) => (
         </span>
       </div>
       <div className="text-xs leading-4.5 text-[#6b6b7a]">
-        by <span className="text-[#0033e0]">purepearl studio</span>
+        by <span className="text-[#6D28D9]">purepearl studio</span>
       </div>
       <div className="flex items-center gap-2.75 mt-3.5">
         <span className="inline-flex items-center gap-2 h-7.5 px-3.5 rounded-full bg-[#f3f3f5] text-xs text-[#555]">
@@ -137,7 +137,7 @@ const CourseCard = ({ title, thumb, className }) => (
         </span>
       </div>
       <div className="mt-2.75 leading-7">
-        <b className={`${POP} text-lg font-semibold text-[#0033e0]`}>$25</b>
+        <b className={`${POP} text-lg font-semibold text-[#6D28D9]`}>$25</b>
         <span className="text-xs text-[#6b6b7a]">/lifetime</span>
       </div>
     </div>
@@ -150,7 +150,7 @@ const HappyStudents = () => (
     <div className="flex items-center gap-1 text-2.75 leading-4 mt-0.5">
       <b className="font-semibold">4.5</b>
       <span className="text-[#6b6b7a]">(240)</span>
-      <Star className="w-2.75 h-2.75 fill-[#0033e0] text-[#0033e0]" />
+      <Star className="w-2.75 h-2.75 fill-[#6D28D9] text-[#6D28D9]" />
     </div>
     <div className="flex items-center mt-3">
       {AV_BIG.map((color, i) => (
@@ -352,7 +352,7 @@ const Login = () => {
 
         <div className="bg-white text-[#222] rounded-4xl px-[clamp(24px,4.4vw,57px)] pt-14.25 pb-9 min-h-177 flex flex-col shadow-[0_8px_30px_rgba(0,0,60,.12)]">
           <form className="flex flex-col flex-1" onSubmit={handleLogin}>
-            <span className="text-base leading-6 text-[#0033e0] self-start">Sign In</span>
+            <span className="text-base leading-6 text-[#6D28D9] self-start">Sign In</span>
             <h1 className={`${POP} m-0 text-[clamp(30px,3.1vw,40px)] font-semibold leading-[1.2] text-[#222]`}>
               Welcome Back
             </h1>
@@ -385,7 +385,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleForgetPassword}
-                className={`border-0 bg-transparent p-0 text-sm text-[#0033e0] cursor-pointer ${FV}`}
+                className={`border-0 bg-transparent p-0 text-sm text-[#6D28D9] cursor-pointer ${FV}`}
               >
                 Forgot Password?
               </button>
@@ -414,7 +414,7 @@ const Login = () => {
 
             <p className="m-0 mt-auto pt-7 text-center text-sm leading-5.5 text-[#6b6b7a]">
               New user?{" "}
-              <Link to="/register" className={`text-[#0033e0] ${FV}`}>
+              <Link to="/register" className={`text-[#6D28D9] ${FV}`}>
                 Register here
               </Link>
             </p>

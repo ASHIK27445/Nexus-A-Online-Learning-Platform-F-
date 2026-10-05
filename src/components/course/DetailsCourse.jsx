@@ -20,9 +20,9 @@ import { AuthContext } from "../../Auth/AuthContext";
 const API = "https://backend-olp.vercel.app";
 
 const GRID =
-  "bg-[#0033e0] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
+  "bg-[#6D28D9] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
 const FV =
-  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#6D28D9] focus-visible:outline-offset-[3px]";
 const WRAP = "max-w-[1160px] mx-auto px-5";
 const TWO_COL =
   "grid grid-cols-[1.75fr_1fr] max-[860px]:grid-cols-1 gap-14 max-[860px]:gap-8";
@@ -257,7 +257,7 @@ function AboutTab({ course }) {
       <ul className="list-none p-0 m-0 mt-4 grid gap-3 text-[15px] text-[#5a5d80]">
         {keys.map((k) => (
           <li key={k} className="flex items-center gap-3">
-            <span className="grid place-items-center w-5 h-5 rounded-full bg-[#0033e0] text-white shrink-0">
+            <span className="grid place-items-center w-5 h-5 rounded-full bg-[#6D28D9] text-white shrink-0">
               <Check className="w-3 h-3" strokeWidth={3} aria-hidden="true" />
             </span>
             {k}
@@ -381,7 +381,7 @@ function ReviewsTab({ course }) {
 function EnrollToast({ onClose }) {
   return (
     <div role="status" className="fixed top-6 right-6 max-[560px]:left-4 max-[560px]:right-4 z-50 animate-[bsSlideIn_.5s_ease-out_forwards]">
-      <div className="bg-[#0033e0] text-white px-5 py-4 rounded-2xl shadow-[0_20px_40px_-20px_rgba(0,30,120,.6)] flex items-center gap-4 border border-white/20">
+      <div className="bg-[#6D28D9] text-white px-5 py-4 rounded-2xl shadow-[0_20px_40px_-20px_rgba(0,30,120,.6)] flex items-center gap-4 border border-white/20">
         <span className="grid place-items-center w-11 h-11 rounded-full bg-[#c8ff00] text-[#14163b] shrink-0">
           <Check className="w-5 h-5" strokeWidth={3} aria-hidden="true" />
         </span>
@@ -570,26 +570,26 @@ export default function CourseDetails() {
             <div className="flex gap-3 flex-wrap mt-6">
               {course.courseType && (
                 <span className={HERO_PILL}>
-                  <TrendingUp className="w-4 h-4 text-[#0033e0]" aria-hidden="true" />
+                  <TrendingUp className="w-4 h-4 text-[#6D28D9]" aria-hidden="true" />
                   {course.courseType}
                 </span>
               )}
               {course.rating != null && (
                 <span className={HERO_PILL}>
-                  <Star className="w-4 h-4 text-[#0033e0] fill-current" aria-hidden="true" />
+                  <Star className="w-4 h-4 text-[#6D28D9] fill-current" aria-hidden="true" />
                   {course.rating}
                   {course.reviews != null && ` (${course.reviews} reviews)`}
                 </span>
               )}
               {course.students != null && (
                 <span className={HERO_PILL}>
-                  <Users className="w-4 h-4 text-[#0033e0]" aria-hidden="true" />
+                  <Users className="w-4 h-4 text-[#6D28D9]" aria-hidden="true" />
                   {course.students} Students
                 </span>
               )}
               {course.duration && (
                 <span className={HERO_PILL}>
-                  <BarChart2 className="w-4 h-4 text-[#0033e0]" aria-hidden="true" />
+                  <BarChart2 className="w-4 h-4 text-[#6D28D9]" aria-hidden="true" />
                   {course.duration}
                 </span>
               )}
@@ -606,7 +606,7 @@ export default function CourseDetails() {
                   <div key={number} className="flex items-start py-[7px] text-[15px] leading-[1.35]">
                     <span className="w-[30px] shrink-0">{number}</span>
                     <span className="w-[190px] max-w-full">{title}</span>
-                    <span className="ml-auto pl-2 text-[#0033e0] text-sm whitespace-nowrap">
+                    <span className="ml-auto pl-2 text-[#6D28D9] text-sm whitespace-nowrap">
                       {duration}
                     </span>
                   </div>
@@ -619,7 +619,7 @@ export default function CourseDetails() {
                 </p>
 
                 <div className="mt-3 mb-4 flex items-baseline gap-2 flex-wrap">
-                  <span className="text-4xl font-semibold leading-[1.2] text-[#0033e0]">
+                  <span className="text-4xl font-semibold leading-[1.2] text-[#6D28D9]">
                     ${price}
                   </span>
                   {hasDiscount && (
@@ -645,7 +645,7 @@ export default function CourseDetails() {
                 {course.title === "JWT Token" && isEnrolled && (
                   <Link
                     to="/jwt-token"
-                    className={`block w-full text-center mt-3 rounded-full px-6 py-3 font-semibold text-[15px] bg-[#0033e0] text-white ${FV}`}
+                    className={`block w-full text-center mt-3 rounded-full px-6 py-3 font-semibold text-[15px] bg-[#6D28D9] text-white ${FV}`}
                   >
                     Explore the course
                   </Link>
@@ -657,7 +657,7 @@ export default function CourseDetails() {
                 <ul className="list-none p-0 m-0 grid gap-3 text-sm text-[#5a5d80]">
                   {includes.map(({ label, Icon }) => (
                     <li key={label} className="flex items-center gap-3">
-                      <Icon className="w-[18px] h-[18px] text-[#0033e0] shrink-0" aria-hidden="true" />
+                      <Icon className="w-[18px] h-[18px] text-[#6D28D9] shrink-0" aria-hidden="true" />
                       {label}
                     </li>
                   ))}
