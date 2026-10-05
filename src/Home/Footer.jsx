@@ -1,205 +1,152 @@
-import React from 'react';
-import { BookOpen, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight, Heart } from 'lucide-react';
-import { Link } from 'react-router';
+import { useState } from "react";
+import { Link } from "react-router";
+import { toast } from "react-toastify";
+import { Heart, Mail, MapPin, Phone } from "lucide-react";
+
+const FV =
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
+const WRAP = "max-w-[1240px] mx-auto px-5";
+
+const mainLinks = [
+  { name: "Browse Courses", href: "/allCourses" },
+  { name: "Become Instructor", href: "#" },
+  { name: "Student Dashboard", href: "#" },
+  { name: "Pricing Plans", href: "#" },
+  { name: "About Us", href: "/aboutUs" },
+  { name: "Careers", href: "#" },
+  { name: "Press Kit", href: "#" },
+  { name: "Contact", href: "#" },
+  { name: "Blog", href: "#" },
+  { name: "Help Center", href: "#" },
+  { name: "Community", href: "#" },
+  { name: "Events", href: "#" },
+];
+
+const legalLinks = [
+  { name: "Terms of Service", href: "/termsofservice" },
+  { name: "Privacy Policy", href: "/privacyPolicy" },
+  { name: "Cookie Policy", href: "#" },
+  { name: "Licenses", href: "#" },
+];
+
+const contacts = [
+  { Icon: Mail, text: "mdashikulislam27889@gmail.com", href: "mailto:mdashikulislam27889@gmail.com" },
+  { Icon: Phone, text: "+880 (170) 567-890", href: "tel:+1234567890" },
+  { Icon: MapPin, text: "Agargoan, Dhaka-1207" },
+];
+
+const FooterLink = ({ href, className = "", children }) =>
+  href.startsWith("/") ? (
+    <Link to={href} className={`${className} ${FV}`}>
+      {children}
+    </Link>
+  ) : (
+    <a href={href} className={`${className} ${FV}`}>
+      {children}
+    </a>
+  );
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
 
-  const footerLinks = {
-    platform: [
-      { name: "Browse Courses", href: "#" },
-      { name: "Become Instructor", href: "#" },
-      { name: "Student Dashboard", href: "#" },
-      { name: "Pricing Plans", href: "#" }
-    ],
-    company: [
-      { name: "About Us", href: "/aboutUs" },
-      { name: "Careers", href: "#" },
-      { name: "Press Kit", href: "#" },
-      { name: "Contact", href: "#" }
-    ],
-    resources: [
-      { name: "Blog", href: "#" },
-      { name: "Help Center", href: "#" },
-      { name: "Community", href: "#" },
-      { name: "Events", href: "#" }
-    ],
-    legal: [
-      { name: "Terms of Service", href: "/termsofservice" },
-      { name: "Privacy Policy", href: "/privacyPolicy" },
-      { name: "Cookie Policy", href: "#" },
-      { name: "Licenses", href: "#" }
-    ]
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    toast.success("Subscribed successfully!");
+    setEmail("");
   };
 
-  const socialLinks = [
-    { icon: Facebook, href: "#", color: "hover:bg-blue-600" },
-    { icon: Twitter, href: "#", color: "hover:bg-sky-500" },
-    { icon: Instagram, href: "#", color: "hover:bg-pink-600" },
-    { icon: Linkedin, href: "#", color: "hover:bg-blue-700" },
-    { icon: Youtube, href: "#", color: "hover:bg-red-600" }
-  ];
-
   return (
-    <footer className="relative bg-linear-to-b from-gray-900 via-black to-black border-t border-white/10 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6">
-        {/* Newsletter Section */}
-        <div className="py-16 border-b border-white/10">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Stay Updated with <span className="bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">Latest Courses</span>
-              </h3>
-              <p className="text-gray-400 text-lg">
-                Subscribe to our newsletter and never miss exclusive offers, new course launches, and expert tips
-              </p>
-            </div>
-            
-            <div className="relative">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email address"
-                  className="flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-amber-400/50 transition-all duration-300 backdrop-blur-sm"
-                />
-                <button className="group px-8 py-4 bg-linear-to-r from-amber-400 to-orange-600 text-white rounded-full font-semibold hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center justify-center space-x-2 hover:scale-105">
-                  <span>Subscribe</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mt-3">
-                By subscribing, you agree to our Privacy Policy and consent to receive updates
-              </p>
-            </div>
+    <footer className="border-t border-[#dfe1f5] bg-white text-[#14163b] pt-14 pb-7 font-[Poppins,system-ui,-apple-system,'Segoe_UI',sans-serif]">
+      <div className={WRAP}>
+        <div className="grid grid-cols-[1.2fr_1.4fr] max-[860px]:grid-cols-1 gap-12 max-[860px]:gap-7">
+          <div>
+            <Link
+              to="/"
+              className={`flex items-center gap-2 font-bold text-2xl leading-[1.1] tracking-[-.02em] text-[#14163b] ${FV}`}
+            >
+              <svg viewBox="0 -10 32 42" aria-hidden="true" className="w-7 block">
+                      {/* crown */}
+                      <path
+                        d="M3 -1L2 -8L5.5 -5L8 -9L10.5 -5L14 -8L13 -1Z"
+                        fill="#c8ff00"
+                        stroke="#c8ff00"
+                        strokeWidth="1.5"
+                        strokeLinejoin="round"
+                      />
+                      {/* existing logo */}
+                      <path
+                        d="M4 3h8v9l13 5-13 5v7H4z"
+                        fill="#c8ff00"
+                        stroke="#c8ff00"
+                        strokeWidth="3"
+                        strokeLinejoin="round"
+                      />
+              </svg>
+              Nexus
+            </Link>
+            <p className="text-[#5a5d80] text-[13px] mt-2.5">
+              Stay Updated with Latest Courses. Subscribe to our newsletter and never miss exclusive offers, new course launches, and expert tips
+            </p>
+            <form className="flex gap-2 mt-4 max-w-95" onSubmit={handleSubscribe}>
+              <input
+                type="email"
+                aria-label="Email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`flex-1 min-w-0 border-[1.5px] border-[#dfe1f5] bg-white text-[#14163b] rounded-full px-4 py-2.5 text-[15px] ${FV}`}
+              />
+              <button
+                type="submit"
+                className={`inline-block border-0 rounded-full px-6 py-3 font-bold text-[15px] cursor-pointer bg-[#c8ff00] text-[#14163b] ${FV}`}
+              >
+                Subscribe
+              </button>
+            </form>
+            <p className="text-[#5a5d80] text-[13px] mt-2.5">
+              By subscribing, you agree to our Privacy Policy and consent to receive updates
+            </p>
+            <ul className="list-none p-0 mt-4 mb-0 grid gap-1.5 text-[13px] text-[#5a5d80]">
+              {contacts.map(({ Icon, text, href }) => (
+                <li key={text} className="flex items-center gap-2">
+                  <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                  {href ? (
+                    <a href={href} className={`hover:text-[#14163b] ${FV}`}>
+                      {text}
+                    </a>
+                  ) : (
+                    <span>{text}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
+
+          <nav
+            aria-label="Footer"
+            className="grid grid-cols-3 max-[860px]:grid-cols-2 gap-x-6 gap-y-1.5 content-start"
+          >
+            {mainLinks.map(({ name, href }) => (
+              <FooterLink key={name} href={href} className="text-sm text-[#5a5d80] py-1.5">
+                {name}
+              </FooterLink>
+            ))}
+          </nav>
         </div>
 
-        {/* Main Footer Content */}
-        <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12">
-          {/* Brand Section */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center space-x-2 mb-6">
-              <div className="w-12 h-12 bg-linear-to-br from-amber-400 to-orange-600 rounded-xl flex items-center justify-center">
-                <BookOpen className="w-7 h-7 text-white" />
-              </div>
-              <span className="text-3xl font-bold bg-linear-to-r from-amber-400 to-orange-600 bg-clip-text text-transparent">Nexus</span>
-            </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              Empowering learners worldwide with premium education. Transform your career with cutting-edge courses from industry experts.
-            </p>
-            
-            {/* Contact Info */}
-            <div className="space-y-3">
-              <a href="https://github.com/ASHIK27445" className="flex items-center space-x-3 text-gray-400 hover:text-amber-400 transition-colors group">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-amber-500/10 transition-colors">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <span>mdashikulislam27889@gmail.com</span>
-              </a>
-              <a href="tel:+1234567890" className="flex items-center space-x-3 text-gray-400 hover:text-amber-400 transition-colors group">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center group-hover:bg-amber-500/10 transition-colors">
-                  <Phone className="w-5 h-5" />
-                </div>
-                <span>+880 (170) 567-890</span>
-              </a>
-              <div className="flex items-center space-x-3 text-gray-400">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
-                </div>
-                <span>Agargoan, Dhaka-1207</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Platform Links */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Platform</h4>
-            <ul className="space-y-3">
-              {footerLinks.platform.map((link, idx) => (
-                <li key={idx}>
-                  <a href={link.href} className="text-gray-400 hover:text-amber-400 transition-colors inline-flex items-center group">
-                    <span className="w-0 h-0.5 bg-amber-400 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Company</h4>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link, idx) => (
-                <li key={idx}>
-                  <Link to={link.href} className="text-gray-400 hover:text-amber-400 transition-colors inline-flex items-center group">
-                    <span className="w-0 h-0.5 bg-amber-400 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Resources Links */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Resources</h4>
-            <ul className="space-y-3">
-              {footerLinks.resources.map((link, idx) => (
-                <li key={idx}>
-                  <a href={link.href} className="text-gray-400 hover:text-amber-400 transition-colors inline-flex items-center group">
-                    <span className="w-0 h-0.5 bg-amber-400 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal Links */}
-          <div>
-            <h4 className="text-white font-bold text-lg mb-6">Legal</h4>
-            <ul className="space-y-3">
-              {footerLinks.legal.map((link, idx) => (
-                <li key={idx}>
-                  <a href={link.href} className="text-gray-400 hover:text-amber-400 transition-colors inline-flex items-center group">
-                    <span className="w-0 h-0.5 bg-amber-400 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"></span>
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Bottom Bar */}
-        <div className="py-8 border-t border-white/10">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            {/* Copyright */}
-            <p className="text-gray-400 text-sm flex items-center space-x-2">
-              <span>© {currentYear} Nexus. All rights reserved. Made with</span>
-              <Heart className="w-4 h-4 fill-red-500 text-red-500 animate-pulse" />
-              <span>by AI ASHIK</span>
-            </p>
-
-            {/* Social Links */}
-            <div className="flex items-center space-x-3">
-              {socialLinks.map((social, idx) => (
-                <Link
-                  key={idx}
-                  to={social.href}
-                  className={`w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center text-gray-400 hover:text-white ${social.color} transition-all duration-300 hover:scale-110`}
-                >
-                  <social.icon className="w-5 h-5" />
-                </Link>
-              ))}
-            </div>
+        <div className="flex justify-between flex-wrap gap-3 mt-10 pt-5 border-t border-[#dfe1f5] text-[#5a5d80] text-sm">
+          <span className="flex items-center gap-1.5 flex-wrap">
+            © {new Date().getFullYear()} ByteSpace. All rights reserved. Made with
+            <Heart className="w-4 h-4 fill-[#0033e0] text-[#0033e0]" aria-hidden="true" />
+            by AI ASHIK
+          </span>
+          <div className="flex gap-5 flex-wrap">
+            {legalLinks.map(({ name, href }) => (
+              <FooterLink key={name} href={href}>
+                {name}
+              </FooterLink>
+            ))}
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@ import TermsOfService from "../components/Others/TermsOfService";
 import PrivacyPolicy from "../components/Others/PrivacyPolicy";
 import AboutUs from "../components/Others/AboutUs";
 import JWTMasteryCourse from "../components/course/JWTMasteryCourse";
+import Test from "../components/Others/Test";
+import MenuPage from "../components/Others/MenuPage";
 
 export const router = createBrowserRouter([
     {
@@ -69,5 +71,11 @@ export const router = createBrowserRouter([
     },
     {
         path: '/jwt-token', Component: JWTMasteryCourse
+    },
+    {
+        path: '/test', Component: Test
+    },
+    {
+        path: '/menu', Component: MenuPage
     }
 ])

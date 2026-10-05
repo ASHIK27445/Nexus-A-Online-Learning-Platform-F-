@@ -1,30 +1,21 @@
-import { use, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
-import { toast } from "react-toastify";
-import { CheckCircle, Eye, EyeOff, ShoppingCart, Star, XCircle } from "lucide-react";
-import { AuthContext } from "../../Auth/AuthContext";
+import { useState } from "react";
+import { Check, Eye, EyeOff, ShoppingCart, Star } from "lucide-react";
 
 const POP = "font-[family-name:Poppins,system-ui,sans-serif]";
 const SAT = "font-[family-name:Satoshi,Poppins,system-ui,sans-serif]";
-const FV =
+export const FV =
   "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#0033e0] focus-visible:outline-offset-[3px]";
 const GRID =
   "bg-[#0033e0] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
 const PAD_X = "px-[clamp(20px,8.3vw,108px)]";
-const LABEL = "block text-sm leading-[21px] text-[#222] mb-[5px]";
-const INPUT = `block w-full h-[47px] border border-[#e4e4ec] rounded-[14px] px-[21px] text-base bg-white text-[#222] placeholder:text-[#9a9aa8] ${FV}`;
 const LIME_SHADOW = "[box-shadow:inset_0_-5px_8px_rgba(110,150,0,.45),0_8px_12px_rgba(0,0,60,.25)]";
 
-const FONTS = [
-  {
-    id: "bytespace-poppins",
-    href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap",
-  },
-  {
-    id: "bytespace-satoshi",
-    href: "https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&display=swap",
-  },
-];
+export const LABEL = "block text-sm leading-[21px] text-[#222] mb-[5px]";
+export const INPUT = `block w-full h-[47px] border border-[#e4e4ec] rounded-[14px] px-[21px] text-base bg-white text-[#222] placeholder:text-[#9a9aa8] ${FV}`;
+export const SUBMIT_BTN = `h-[41px] px-6 rounded-full border-0 bg-[#c8ff00] text-[#14163b] text-base font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${FV}`;
+export const SOCIAL_BTN = `w-[64px] h-[65px] rounded-2xl border border-[#dcdce4] bg-transparent text-black grid place-items-center cursor-pointer ${FV}`;
+export const DIVIDER =
+  "flex items-center gap-[18px] text-[#6b6b7a] mt-10 leading-6 before:content-[''] before:flex-1 before:h-px before:bg-[#dcdce4] after:content-[''] after:flex-1 after:h-px after:bg-[#dcdce4]";
 
 const AV = ["#f2a7c0", "#e0b48a", "#f2c14e", "#6b7a8f"];
 const AV_BIG = [...AV, "#8fd3b0", "#c8a0e8", "#e8d0b0"];
@@ -92,7 +83,7 @@ const PlaceholderThumb = () => (
   </div>
 );
 
-const CourseCard = ({ title, thumb, className }) => (
+const CollageCard = ({ title, thumb, className }) => (
   <div
     className={`absolute w-[336px] h-[345px] bg-white text-[#14163b] rounded-[18px] shadow-[0_6px_20px_-8px_rgba(0,0,60,.25)] ${className}`}
   >
@@ -167,10 +158,10 @@ const HappyStudents = () => (
   </div>
 );
 
-const Collage = ({ className }) => (
-  <div aria-hidden="true" className={`${className} w-[447px] h-[502px] max-[1100px]:hidden`}>
-    <CourseCard title="Build Digital Asset" className="left-0 top-20" thumb={<PlaceholderThumb />} />
-    <CourseCard title="the Power of Big Data" className="left-[101px] top-0" thumb={<BigDataThumb />} />
+const Collage = () => (
+  <div aria-hidden="true" className="relative w-[447px] h-[502px] mt-12 max-[1100px]:hidden">
+    <CollageCard title="Build Digital Asset" className="left-0 top-20" thumb={<PlaceholderThumb />} />
+    <CollageCard title="the Power of Big Data" className="left-[101px] top-0" thumb={<BigDataThumb />} />
 
     <span
       className={`absolute left-[47px] top-9 w-[91px] h-[88px] rounded-full border-[24px] border-[#c8ff00] -rotate-[25deg] z-[3] ${LIME_SHADOW}`}
@@ -196,7 +187,7 @@ const Collage = ({ className }) => (
   </div>
 );
 
-const Loading = ({ label }) => (
+export const AuthLoading = ({ label }) => (
   <div className={`${GRID} ${SAT} min-h-screen grid place-items-center text-white`}>
     <div className="text-center">
       <div
@@ -209,9 +200,18 @@ const Loading = ({ label }) => (
   </div>
 );
 
+export const AuthCard = ({ eyebrow, title, subtitle, children }) => (
+  <div className="bg-white text-[#222] rounded-[32px] px-[clamp(24px,4.4vw,57px)] pt-[57px] pb-[47px] min-h-[708px] flex flex-col shadow-[0_8px_30px_rgba(0,0,60,.12)]">
+    <span className="text-base leading-6 text-[#0033e0] self-start">{eyebrow}</span>
+    <h1 className={`${POP} m-0 text-[clamp(30px,3.1vw,40px)] font-semibold leading-[1.2] text-[#222]`}>
+      {title}
+    </h1>
+    {subtitle && <p className="m-0 mt-2 text-sm text-[#6b6b7a]">{subtitle}</p>}
+    {children}
+  </div>
+);
 
-
-const PasswordField = ({ id = "password", ...props }) => {
+export const PasswordInput = ({ id = "password", ...props }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -235,179 +235,33 @@ const PasswordField = ({ id = "password", ...props }) => {
   );
 };
 
-const getPasswordErrors = (value) => {
-  const errors = [];
-
-  if (!/[A-Z]/.test(value)) errors.push("Password must have an uppercase letter");
-  if (!/[a-z]/.test(value)) errors.push("Password must have a lowercase letter");
-  if (value.length < 6) errors.push("Length must be at least 6 characters");
-
-  return errors;
-};
-
-const Register = () => {
-  const { createUserEP, profileUpdate, user, logoutUser } = use(AuthContext);
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const passError = getPasswordErrors(password);
-
-  useEffect(() => {
-    FONTS.forEach(({ id, href }) => {
-      if (document.getElementById(id)) return;
-
-      const link = document.createElement("link");
-      link.id = id;
-      link.rel = "stylesheet";
-      link.href = href;
-      document.head.append(link);
-    });
-  }, []);
-
-  const handleRegister = (e) => {
-    e.preventDefault();
-
-    if (user) {
-      toast.error("Logout first!");
-      return;
-    }
-
-    const form = e.target;
-    const { name, photoURL, email, password: pass } = Object.fromEntries(new FormData(form));
-
-    setLoading(true);
-    createUserEP(email, pass)
-      .then(() => profileUpdate(name, photoURL))
-      .then(() => {
-        toast.success("Account created successfully!", { autoClose: 1200 });
-        form.reset();
-        setPassword("");
-        setLoading(false);
-        logoutUser();
-        navigate("/login");
-      })
-      .catch((error) => {
-        setLoading(false);
-        toast.error(error.message);
-      });
-  };
-
-  if (loading) return <Loading label="Creating Your Account" />;
-
-  return (
-    <div
-      className={`${GRID} ${SAT} min-h-screen text-white text-base font-normal leading-[1.6] [padding-top:env(safe-area-inset-top,0px)] [padding-bottom:env(safe-area-inset-bottom,0px)]`}
+const AuthLayout = ({ title, description, features = [], children }) => (
+  <div
+    className={`${GRID} ${SAT} min-h-screen text-white text-base font-normal leading-[1.6]`}
+  >
+    <main
+      className={`${PAD_X} pt-12 pb-[108px] grid grid-cols-2 max-[860px]:grid-cols-1 gap-[38px] items-start`}
     >
+      <div>
+        <h2 className={`${POP} m-0 mb-3 text-lg font-medium leading-[1.4]`}>{title}</h2>
+        <p className="m-0 text-base leading-[26px] max-w-[440px] text-white/90">{description}</p>
+        {features.length > 0 && (
+          <ul className="list-none p-0 mt-7 mb-0 grid gap-3.5">
+            {features.map((feature) => (
+              <li key={feature} className="flex items-center gap-3 text-white/90">
+                <span className="grid place-items-center w-6 h-6 rounded-full bg-[#c8ff00] text-[#14163b] shrink-0">
+                  <Check className="w-3.5 h-3.5" strokeWidth={3} aria-hidden="true" />
+                </span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        )}
+        <Collage />
+      </div>
+      {children}
+    </main>
+  </div>
+);
 
-      <main
-        className={`${PAD_X} pt-10 pb-[108px] grid grid-cols-2 max-[860px]:grid-cols-1 gap-[38px] items-start`}
-      >
-        <div className="relative">
-          <h2 className={`${POP} m-0 mb-3 text-lg font-medium leading-[1.4]`}>
-            Start Your Learning Adventure
-          </h2>
-          <p className="m-0 text-base leading-[26px] max-w-[440px] text-white/90">
-            Create your account and unlock access to world-class courses, expert instructors, and a thriving learning community.
-          </p>
-          <Collage className="absolute left-0 top-[168px]" />
-        </div>
-
-        <div className="bg-white text-[#222] rounded-[32px] px-[clamp(24px,4.4vw,57px)] pt-[57px] pb-[47px] min-h-[708px] flex flex-col shadow-[0_8px_30px_rgba(0,0,60,.12)]">
-          <form className="flex flex-col flex-1" onSubmit={handleRegister}>
-            <span className="text-base leading-6 text-[#0033e0] self-start">Create an Account</span>
-            <h1 className={`${POP} m-0 text-[clamp(30px,3.1vw,40px)] font-semibold leading-[1.2] text-[#222]`}>
-              Welcome to
-              <br />
-              ByteSpace
-            </h1>
-
-            <label htmlFor="name" className={`${LABEL} mt-[33px]`}>
-              Full Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="name"
-              required
-              placeholder="Jamie Davis"
-              className={INPUT}
-            />
-
-            <label htmlFor="photoURL" className={`${LABEL} mt-[19px]`}>
-              Photo URL
-            </label>
-            <input
-              id="photoURL"
-              name="photoURL"
-              type="url"
-              required
-              placeholder="https://example.com/photo.jpg"
-              className={INPUT}
-            />
-
-            <label htmlFor="email" className={`${LABEL} mt-[19px]`}>
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              placeholder="designer@example.com"
-              className={INPUT}
-            />
-
-            <label htmlFor="password" className={`${LABEL} mt-[19px]`}>
-              Password
-            </label>
-            <PasswordField
-              name="password"
-              autoComplete="new-password"
-              placeholder="Create a strong password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            {password && (
-              <ul className="list-none p-0 mt-3 mb-0 grid gap-2 text-sm">
-                {passError.length > 0 ? (
-                  passError.map((error) => (
-                    <li key={error} className="flex items-center gap-2 text-red-500">
-                      <XCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
-                      {error}
-                    </li>
-                  ))
-                ) : (
-                  <li className="flex items-center gap-2 text-green-600">
-                    <CheckCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
-                    Password requirements met!
-                  </li>
-                )}
-              </ul>
-            )}
-
-            <button
-              type="submit"
-              disabled={passError.length > 0}
-              className={`self-end mt-[22px] h-[41px] px-6 rounded-full border-0 bg-[#c8ff00] text-[#14163b] text-base font-medium cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${FV}`}
-            >
-              Create Account
-            </button>
-
-            <p className="m-0 mt-auto pt-7 text-center text-sm leading-[22px] text-[#6b6b7a]">
-              Already have an account?{" "}
-              <Link to="/login" className={`text-[#0033e0] ${FV}`}>
-                Login here
-              </Link>
-            </p>
-          </form>
-        </div>
-      </main>
-    </div>
-  );
-};
-
-export default Register;
+export default AuthLayout;

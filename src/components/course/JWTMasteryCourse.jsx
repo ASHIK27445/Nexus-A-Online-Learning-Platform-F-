@@ -2306,13 +2306,16 @@ const JWTMasteryCourse = () => {
   };
 
   // Re-run syntax highlighting after content renders
-  useEffect(() => {
-    if (window.hljs) {
-      document.querySelectorAll('pre code').forEach((block) => {
-        window.hljs.highlightElement(block);
-      });
-    }
-  }, [currentChapterId]);
+useEffect(() => {
+  console.log('hljs available?', !!window.hljs);
+  if (window.hljs) {
+    const blocks = document.querySelectorAll('pre code');
+    console.log('code blocks found:', blocks.length);
+    blocks.forEach((block) => {
+      window.hljs.highlightElement(block);
+    });
+  }
+}, [currentChapterId]);
 
   // Group chapters for sidebar
   const groupedChapters = chapters.reduce((acc, ch) => {
@@ -2475,7 +2478,7 @@ const JWTMasteryCourse = () => {
         .chapter-content li{margin-bottom:1px}
         .chapter-content strong{color:var(--text);font-weight:600}
         .chapter-content code{font-family:'Fira Code','Consolas',monospace;font-size:11px;background:var(--bg4);color:var(--cyan);padding:2px 6px;border-radius:4px;border:1px solid var(--border2)}
-        .chapter-content pre{font-family:'Fira Code','Consolas',monospace;font-size:12px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;overflow-x:auto;line-height:1.7;margin-bottom:.85rem;color:#c9d1d9;white-space:pre}
+        .chapter-content pre{font-family:'Fira Code','Consolas',monospace;font-size:12px;border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;overflow-x:auto;line-height:1.7;margin-bottom:.85rem;white-space:pre}
         .chapter-content .file-tag{font-size:10px;font-weight:700;color:var(--text3);background:var(--bg4);border:1px solid var(--border);border-bottom:none;padding:5px 12px;border-radius:var(--radius) var(--radius) 0 0;display:inline-flex;align-items:center;gap:6px;margin-bottom:-2px}
         .chapter-content .file-tag+pre{border-radius:0 var(--radius) var(--radius) var(--radius)}
         .chapter-content .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.85rem}
