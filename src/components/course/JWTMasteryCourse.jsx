@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useEffect, useMemo, useState } from "react";
 
 // ============================================================
 // CHAPTER DATA – COMPLETE CONTENT FROM ORIGINAL HTML
@@ -2257,273 +2257,359 @@ INFRASTRUCTURE:
 // REACT COMPONENT
 // ============================================================
 
+const FV =
+  "focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-[#6D28D9] focus-visible:outline-offset-[3px]";
+const WRAP = "max-w-[1160px] mx-auto px-5";
+const GRID =
+  "bg-[#6D28D9] bg-[linear-gradient(rgba(255,255,255,.13)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.13)_1px,transparent_1px)] bg-[length:108px_108px]";
+const SHAPE = "absolute z-[1]";
+const TRIANGLE = "[clip-path:polygon(45%_0,100%_88%,0_100%)]";
+const BLOB = "rounded-[50px_50px_100px_100px]";
+const CARD =
+  "bg-white border border-[#dfe1f5] rounded-[18px] shadow-[0_20px_40px_-28px_rgba(0,30,120,.4)]";
+const BTN_ACC = `inline-flex items-center justify-center gap-2 border-0 rounded-full px-6 py-3 font-bold text-[15px] cursor-pointer bg-[#c8ff00] text-[#14163b] ${FV}`;
+const BTN_SOFT = `inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-semibold text-[15px] cursor-pointer border-[1.5px] border-[#dfe1f5] bg-white text-[#333] hover:bg-[#f1f2f4] transition-colors ${FV}`;
+
+const STORAGE_DONE = "jwt_course_done";
+const STORAGE_ANSWERS = "jwt_course_answers";
+
+const readStorage = (key, fallback) => {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+const writeStorage = (key, value) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    /* storage unavailable */
+  }
+};
+
 const JWTMasteryCourse = () => {
   const [currentChapterId, setCurrentChapterId] = useState(chapters[0].id);
-  const [doneChapters, setDoneChapters] = useState(new Set());
-  const [quizAnswers, setQuizAnswers] = useState({});
+  const [doneChapters, setDoneChapters] = useState(() => new Set(readStorage(STORAGE_DONE, [])));
+  const [quizAnswers, setQuizAnswers] = useState(() => readStorage(STORAGE_ANSWERS, {}));
 
-  // Load saved progress from localStorage
   useEffect(() => {
-    const savedDone = localStorage.getItem('jwt_course_done');
-    const savedAnswers = localStorage.getItem('jwt_course_answers');
-    if (savedDone) setDoneChapters(new Set(JSON.parse(savedDone)));
-    if (savedAnswers) setQuizAnswers(JSON.parse(savedAnswers));
+    const fontId = "bytespace-poppins";
+    if (document.getElementById(fontId)) return;
+
+    const preconnect = document.createElement("link");
+    preconnect.rel = "preconnect";
+    preconnect.href = "https://fonts.googleapis.com";
+
+    const stylesheet = document.createElement("link");
+    stylesheet.id = fontId;
+    stylesheet.rel = "stylesheet";
+    stylesheet.href =
+      "https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap";
+
+    document.head.append(preconnect, stylesheet);
   }, []);
 
-  // Save progress to localStorage
   useEffect(() => {
-    localStorage.setItem('jwt_course_done', JSON.stringify([...doneChapters]));
-    localStorage.setItem('jwt_course_answers', JSON.stringify(quizAnswers));
-  }, [doneChapters, quizAnswers]);
+    writeStorage(STORAGE_DONE, [...doneChapters]);
+  }, [doneChapters]);
 
-  const currentChapter = chapters.find(c => c.id === currentChapterId);
-  const currentIndex = chapters.findIndex(c => c.id === currentChapterId);
-  const totalQuizzes = chapters.filter(c => c.quiz).length;
+  useEffect(() => {
+    writeStorage(STORAGE_ANSWERS, quizAnswers);
+  }, [quizAnswers]);
+
+  const currentIndex = chapters.findIndex((c) => c.id === currentChapterId);
+  const currentChapter = chapters[currentIndex];
+  const quiz = currentChapter.quiz;
+  const selectedAnswer = quizAnswers[currentChapter.id];
+  const answered = selectedAnswer !== undefined;
+  const isCorrect = answered && selectedAnswer === quiz?.ans;
+
+  const totalQuizzes = useMemo(() => chapters.filter((c) => c.quiz).length, []);
   const completedQuizzes = doneChapters.size;
-  const progress = (completedQuizzes / totalQuizzes) * 100;
+  const progress = totalQuizzes ? Math.round((completedQuizzes / totalQuizzes) * 100) : 0;
 
-  const handleAnswerQuiz = (chapterId, selectedIndex) => {
-    const chapter = chapters.find(c => c.id === chapterId);
-    const isCorrect = selectedIndex === chapter.quiz.ans;
+  const groupedChapters = useMemo(
+    () =>
+      chapters.reduce((acc, ch) => {
+        (acc[ch.group] ||= []).push(ch);
+        return acc;
+      }, {}),
+    []
+  );
 
-    setQuizAnswers(prev => ({ ...prev, [chapterId]: selectedIndex }));
-
-    if (isCorrect) {
-      setDoneChapters(prev => new Set([...prev, chapterId]));
-    }
-  };
+  // Syntax highlighting (if highlight.js is loaded globally)
+  useEffect(() => {
+    if (!window.hljs) return;
+    document.querySelectorAll(".chapter-content pre code").forEach((block) => {
+      delete block.dataset.highlighted;
+      window.hljs.highlightElement(block);
+    });
+  }, [currentChapterId]);
 
   const goToChapter = (id) => {
     setCurrentChapterId(id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goToNextChapter = () => {
-    if (currentIndex < chapters.length - 1) {
-      setCurrentChapterId(chapters[currentIndex + 1].id);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (currentIndex < chapters.length - 1) goToChapter(chapters[currentIndex + 1].id);
+  };
+
+  const handleAnswerQuiz = (chapterId, selectedIndex) => {
+    const chapter = chapters.find((c) => c.id === chapterId);
+    setQuizAnswers((prev) => ({ ...prev, [chapterId]: selectedIndex }));
+    if (selectedIndex === chapter.quiz.ans) {
+      setDoneChapters((prev) => new Set(prev).add(chapterId));
     }
   };
 
-  // Re-run syntax highlighting after content renders
-useEffect(() => {
-  console.log('hljs available?', !!window.hljs);
-  if (window.hljs) {
-    const blocks = document.querySelectorAll('pre code');
-    console.log('code blocks found:', blocks.length);
-    blocks.forEach((block) => {
-      window.hljs.highlightElement(block);
+  const retryQuiz = () =>
+    setQuizAnswers((prev) => {
+      const next = { ...prev };
+      delete next[currentChapter.id];
+      return next;
     });
-  }
-}, [currentChapterId]);
 
-  // Group chapters for sidebar
-  const groupedChapters = chapters.reduce((acc, ch) => {
-    if (!acc[ch.group]) acc[ch.group] = [];
-    acc[ch.group].push(ch);
-    return acc;
-  }, {});
+  const optionClass = (idx) => {
+    if (!answered) {
+      return "border-[#dfe1f5] bg-white hover:border-[#6D28D9] hover:bg-[#eef2ff] cursor-pointer";
+    }
+    if (idx === quiz.ans) return "border-[#0b7a4b] bg-[#ecfdf3] text-[#0b7a4b] cursor-default";
+    if (idx === selectedAnswer) return "border-[#c62828] bg-[#fff0f0] text-[#c62828] cursor-default";
+    return "border-[#dfe1f5] bg-white opacity-50 cursor-default";
+  };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-[#0f1117] text-[#e2e8f0]">
-      {/* Sidebar */}
-      <div className="md:w-72 md:sticky md:top-0 md:h-screen bg-[#161b27] border-r border-[#2a3347] overflow-y-auto">
-        <div className="p-4 pb-4 border-b border-[#2a3347]">
-          <h1 className="text-lg font-bold text-[#10b981]">JWT Mastery</h1>
-          <p className="text-xs text-[#64748b]">Complete Course</p>
-        </div>
-        {Object.entries(groupedChapters).map(([groupName, groupChapters]) => (
-          <div key={groupName} className="mb-4">
-            <div className="text-[10px] font-bold text-[#64748b] uppercase tracking-wider px-4 mb-2">
-              {groupName}
-            </div>
-            {groupChapters.map((chapter) => {
-              const isActive = chapter.id === currentChapterId;
-              const isDone = chapter.quiz && doneChapters.has(chapter.id);
-              return (
-                <button
-                  key={chapter.id}
-                  onClick={() => goToChapter(chapter.id)}
-                  className={`
-                    w-full text-left px-4 py-2 text-sm transition-all duration-150
-                    flex items-center gap-3
-                    ${isActive
-                      ? 'text-[#10b981] bg-[#1d2535] border-l-2 border-[#10b981]'
-                      : 'text-[#94a3b8] hover:bg-[#1d2535] hover:text-white border-l-2 border-transparent'
-                    }
-                  `}
-                >
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isDone ? 'bg-[#10b981]' : 'bg-[#334060]'}`} />
-                  <span className="truncate">{chapter.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        ))}
-      </div>
+    <div className="min-h-screen bg-white text-[#14163b] text-base font-normal leading-[1.6] font-[family-name:Poppins,system-ui,-apple-system,'Segoe_UI',sans-serif] [padding-top:env(safe-area-inset-top,0px)] [padding-bottom:env(safe-area-inset-bottom,0px)]">
+      <header className={`relative ${GRID} text-white overflow-hidden pt-32 pb-28 max-[860px]:pt-24`}>
+        <span className={`${SHAPE} left-[-70px] top-[60px] w-[230px] h-[210px] rounded-[70px] bg-[#c8ff00] -rotate-[22deg] max-[860px]:scale-[.6]`} />
+        <span className={`${SHAPE} right-[-80px] top-[40px] w-[210px] h-[280px] ${BLOB} bg-[#c8ff00] -rotate-[14deg] max-[860px]:scale-[.6]`} />
+        <span className={`${SHAPE} right-[22%] bottom-[-30px] w-[110px] h-[120px] bg-white ${TRIANGLE} max-[860px]:hidden`} />
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto px-4 py-6 md:px-8 md:py-8">
-          {/* Progress Bar */}
-          <div className="mb-6">
-            <div className="flex justify-between text-xs text-[#64748b] mb-1">
-              <span>Course Progress</span>
-              <span>{completedQuizzes}/{totalQuizzes} chapters completed</span>
+        <div className={`${WRAP} relative z-[2] text-center`}>
+          <h1 className="m-0 font-semibold leading-[1.1] tracking-[-.02em] text-[clamp(36px,6vw,64px)]">
+            JWT Mastery
+          </h1>
+          <p className="mt-5 mx-auto max-w-[60ch] text-[17px] text-white/[.92]">
+            From sessions to RS256 and token revocation. Learn how JWT really works, chapter by chapter.
+          </p>
+        </div>
+      </header>
+
+      <main className="relative z-[3] pb-20 max-[860px]:pb-14">
+        <div className={WRAP}>
+          <div className="-mt-16 mb-8 bg-white border border-[#dfe1f5] rounded-[18px] px-6 py-5 shadow-[0_20px_40px_-28px_rgba(0,30,120,.4)]">
+            <div className="flex justify-between items-center gap-3 text-sm mb-2">
+              <span className="font-medium">Course Progress</span>
+              <span className="text-[#5a5d80]">
+                {completedQuizzes}/{totalQuizzes} chapters completed ·{" "}
+                <b className="font-semibold text-[#6D28D9]">{progress}%</b>
+              </span>
             </div>
-            <div className="h-1 bg-[#1d2535] rounded-full overflow-hidden">
-              <div
-                className="h-full bg-linear-to-r from-[#059669] to-[#10b981] rounded-full transition-all duration-300"
+            <div
+              role="progressbar"
+              aria-label="Course progress"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={progress}
+              className="h-2 rounded-lg bg-[#eaeaf2] overflow-hidden"
+            >
+              <i
+                className="block h-full bg-[#c8ff00] transition-[width] duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
-          {/* Chapter Header */}
-          <div className="mb-6 pb-4 border-b border-[#2a3347]">
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-[#10b981] bg-[#052e1a] border border-[#064e2e] px-3 py-1 rounded-full mb-3">
-              <span>{currentChapter.group}</span>
-              <span>·</span>
-              <span>{currentIndex + 1} of {chapters.length}</span>
-            </div>
-            <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
-              {currentChapter.label}
-            </h1>
-          </div>
+          <div className="grid grid-cols-[300px_minmax(0,1fr)] max-[960px]:grid-cols-1 gap-8 items-start">
+            <nav
+              aria-label="Chapters"
+              className={`${CARD} p-4 min-[961px]:sticky min-[961px]:top-24 min-[961px]:max-h-[calc(100vh-7rem)] overflow-y-auto`}
+            >
+              {Object.entries(groupedChapters).map(([groupName, groupChapters]) => (
+                <div key={groupName} className="mb-4 last:mb-0">
+                  <p className="m-0 mb-2 px-2 text-[11px] font-semibold uppercase tracking-wider text-[#8a8ea8]">
+                    {groupName}
+                  </p>
+                  <div className="grid gap-1">
+                    {groupChapters.map((chapter) => {
+                      const isActive = chapter.id === currentChapterId;
+                      const isDone = chapter.quiz && doneChapters.has(chapter.id);
+                      return (
+                        <button
+                          key={chapter.id}
+                          type="button"
+                          aria-current={isActive ? "page" : undefined}
+                          onClick={() => goToChapter(chapter.id)}
+                          className={`w-full text-left flex items-center gap-3 rounded-xl border-0 px-3 py-2.5 text-sm cursor-pointer transition-colors ${FV} ${
+                            isActive
+                              ? "bg-[#c8ff00] text-[#14163b] font-semibold"
+                              : "bg-transparent text-[#5a5d80] hover:bg-[#f1f2f4]"
+                          }`}
+                        >
+                          <span
+                            aria-hidden="true"
+                            className={`grid place-items-center w-5 h-5 rounded-full shrink-0 text-[10px] font-bold ${
+                              isDone ? "bg-[#6D28D9] text-white" : "bg-[#eaeaf2] text-transparent"
+                            }`}
+                          >
+                            ✓
+                          </span>
+                          <span className="truncate">{chapter.label}</span>
+                          {isDone && <span className="sr-only">(completed)</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </nav>
 
-          {/* Chapter Content */}
-          <div
-            className="chapter-content"
-            dangerouslySetInnerHTML={{ __html: currentChapter.content }}
-          />
-
-          {/* Quiz Section */}
-          {currentChapter.quiz && (
-            <div className="mt-8 pt-6 border-t border-[#2a3347]">
-              <div className="text-xs font-bold text-[#10b981] uppercase tracking-wider mb-3">
-                Knowledge Check
+            <article className={`${CARD} p-8 max-[560px]:p-5 min-w-0`}>
+              <div className="mb-6 pb-5 border-b border-[#dfe1f5]">
+                <span className="inline-flex items-center gap-2 text-[11px] font-bold text-[#6D28D9] bg-[#eef2ff] rounded-full px-3 py-1 mb-3">
+                  {currentChapter.group} · {currentIndex + 1} of {chapters.length}
+                </span>
+                <h2 className="m-0 font-bold leading-[1.1] tracking-[-.02em] text-[clamp(26px,3.6vw,36px)]">
+                  {currentChapter.label}
+                </h2>
               </div>
-              <div className="text-base font-semibold text-white mb-4">
-                {currentChapter.quiz.q}
-              </div>
 
-              <div className="space-y-2">
-                {currentChapter.quiz.opts.map((opt, idx) => {
-                  const selectedAnswer = quizAnswers[currentChapter.id];
-                  const getOptionClass = () => {
-                    if (selectedAnswer === undefined) return 'border-[#334060] hover:border-[#10b981] hover:bg-[#1d2535]';
-                    if (idx === currentChapter.quiz.ans) return 'border-[#10b981] bg-[#052e1a] text-[#6ee7b7]';
-                    if (idx === selectedAnswer && selectedAnswer !== currentChapter.quiz.ans) return 'border-[#ef4444] bg-[#1a0505] text-[#fca5a5]';
-                    return 'border-[#334060] opacity-50';
-                  };
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => selectedAnswer === undefined && handleAnswerQuiz(currentChapter.id, idx)}
-                      disabled={selectedAnswer !== undefined}
-                      className={`
-                        w-full text-left p-3 rounded-md border transition-all duration-150 text-sm
-                        ${getOptionClass()}
-                        ${selectedAnswer !== undefined ? 'cursor-default' : 'cursor-pointer'}
-                      `}
-                    >
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
+              <div
+                className="chapter-content"
+                dangerouslySetInnerHTML={{ __html: currentChapter.content }}
+              />
 
-              {quizAnswers[currentChapter.id] !== undefined && (
-                <div className="mt-4">
-                  <div className={`p-3 rounded-md text-sm ${quizAnswers[currentChapter.id] === currentChapter.quiz.ans ? 'bg-[#052e1a] border border-[#064e2e] text-[#6ee7b7]' : 'bg-[#1a0505] border border-[#4a1010] text-[#fca5a5]'}`}>
-                    {quizAnswers[currentChapter.id] === currentChapter.quiz.ans ? '✓ Correct! ' : '✗ Not quite. '}
-                    {currentChapter.quiz.exp}
+              {quiz && (
+                <section className="mt-10 pt-8 border-t border-[#dfe1f5]" aria-label="Knowledge check">
+                  <p className="m-0 mb-3 text-xs font-semibold uppercase tracking-wider text-[#6D28D9]">
+                    Knowledge Check
+                  </p>
+                  <h3 className="m-0 mb-5 text-lg font-semibold leading-[1.4]">{quiz.q}</h3>
+
+                  <div className="grid gap-3">
+                    {quiz.opts.map((opt, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        disabled={answered}
+                        onClick={() => handleAnswerQuiz(currentChapter.id, idx)}
+                        className={`w-full text-left rounded-2xl border-[1.5px] px-5 py-3.5 text-[15px] transition-colors ${FV} ${optionClass(idx)}`}
+                      >
+                        {opt}
+                      </button>
+                    ))}
                   </div>
 
-                  {quizAnswers[currentChapter.id] === currentChapter.quiz.ans && currentIndex < chapters.length - 1 && (
-                    <button
-                      onClick={goToNextChapter}
-                      className="mt-4 px-4 py-2 bg-[#059669] hover:bg-[#10b981] text-white rounded-md text-sm font-medium transition-colors"
-                    >
-                      Next Chapter →
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+                  {answered && (
+                    <div className="mt-5" role="status">
+                      <div
+                        className={`rounded-2xl border px-5 py-4 text-sm leading-[1.7] ${
+                          isCorrect
+                            ? "bg-[#ecfdf3] border-[#a7e8c5] text-[#0b7a4b]"
+                            : "bg-[#fff0f0] border-[#ffc9c9] text-[#c62828]"
+                        }`}
+                      >
+                        <b className="font-semibold">{isCorrect ? "Correct! " : "Not quite. "}</b>
+                        {quiz.exp}
+                      </div>
 
-      {/* Embedded styles for chapter content */}
+                      <div className="flex gap-3 flex-wrap mt-5">
+                        {!isCorrect && (
+                          <button type="button" onClick={retryQuiz} className={BTN_ACC}>
+                            Try Again
+                          </button>
+                        )}
+                        {currentIndex < chapters.length - 1 && (
+                          <button
+                            type="button"
+                            onClick={goToNextChapter}
+                            className={isCorrect ? BTN_ACC : BTN_SOFT}
+                          >
+                            Next Chapter →
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </section>
+              )}
+            </article>
+          </div>
+        </div>
+      </main>
+
       <style>{`
-        :root{
-          --bg:#0f1117;--bg2:#161b27;--bg3:#1d2535;--bg4:#242d40;
-          --border:#2a3347;--border2:#334060;
-          --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
-          --green:#10b981;--green2:#059669;--green-bg:#052e1a;--green-border:#064e2e;
-          --blue:#3b82f6;--blue2:#2563eb;--blue-bg:#0a1628;--blue-border:#1e3a5f;
-          --amber:#f59e0b;--amber-bg:#1a1000;--amber-border:#4a2e00;
-          --red:#ef4444;--red-bg:#1a0505;--red-border:#4a1010;
-          --purple:#a78bfa;--purple-bg:#12082a;--purple-border:#3b1f6e;
-          --cyan:#22d3ee;--cyan-bg:#021a1f;
-          --radius:10px;--radius-sm:6px;
+        .chapter-content{
+          --text:#14163b;--text2:#5a5d80;--text3:#8a8ea8;
+          --bg2:#ffffff;--bg3:#f6f7ff;--bg4:#eef2ff;
+          --border:#dfe1f5;--border2:#c7d2fe;
+          --green:#0b7a4b;--green-bg:#ecfdf3;--green-border:#a7e8c5;
+          --blue:#6D28D9;--blue-bg:#eef2ff;--blue-border:#c7d2fe;
+          --amber:#8a5a00;--amber-bg:#fff8e1;--amber-border:#ffe08a;
+          --red:#c62828;--red-bg:#fff0f0;--red-border:#ffc9c9;
+          --purple:#6d3fd1;--purple-bg:#f5f0ff;--purple-border:#d9c9ff;
+          --cyan:#6D28D9;
+          --radius:14px;--radius-sm:10px;
         }
-        .chapter-content *{box-sizing:border-box;}
-        .chapter-content h2{font-size:17px;font-weight:700;color:var(--text);margin:1.75rem 0 .6rem;padding-top:.25rem}
-        .chapter-content h3{font-size:14px;font-weight:700;color:var(--cyan);margin:1.25rem 0 .4rem}
-        .chapter-content h4{font-size:13px;font-weight:600;color:var(--purple);margin:.9rem 0 .3rem}
-        .chapter-content p{font-size:13px;line-height:1.8;color:var(--text2);margin-bottom:.65rem}
-        .chapter-content ul,.chapter-content ol{padding-left:1.3rem;font-size:13px;line-height:1.9;color:var(--text2);margin-bottom:.65rem}
-        .chapter-content li{margin-bottom:1px}
+        .chapter-content *{box-sizing:border-box}
+        .chapter-content h2{font-size:20px;font-weight:700;color:var(--text);margin:2rem 0 .7rem;line-height:1.2}
+        .chapter-content h3{font-size:16px;font-weight:700;color:var(--blue);margin:1.4rem 0 .5rem}
+        .chapter-content h4{font-size:14px;font-weight:600;color:var(--purple);margin:1rem 0 .3rem}
+        .chapter-content p{font-size:15px;line-height:1.75;color:var(--text2);margin:0 0 .8rem}
+        .chapter-content ul,.chapter-content ol{padding-left:1.3rem;font-size:15px;line-height:1.9;color:var(--text2);margin-bottom:.8rem}
         .chapter-content strong{color:var(--text);font-weight:600}
-        .chapter-content code{font-family:'Fira Code','Consolas',monospace;font-size:11px;background:var(--bg4);color:var(--cyan);padding:2px 6px;border-radius:4px;border:1px solid var(--border2)}
-        .chapter-content pre{font-family:'Fira Code','Consolas',monospace;font-size:12px;border:1px solid var(--border2);border-radius:var(--radius);padding:1rem 1.25rem;overflow-x:auto;line-height:1.7;margin-bottom:.85rem;white-space:pre}
-        .chapter-content .file-tag{font-size:10px;font-weight:700;color:var(--text3);background:var(--bg4);border:1px solid var(--border);border-bottom:none;padding:5px 12px;border-radius:var(--radius) var(--radius) 0 0;display:inline-flex;align-items:center;gap:6px;margin-bottom:-2px}
-        .chapter-content .file-tag+pre{border-radius:0 var(--radius) var(--radius) var(--radius)}
-        .chapter-content .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.85rem}
+        .chapter-content code{font-family:'Fira Code',Consolas,monospace;font-size:12.5px;background:var(--bg4);color:var(--blue);padding:2px 6px;border-radius:6px;border:1px solid var(--border2);word-break:break-word}
+        .chapter-content pre{font-family:'Fira Code',Consolas,monospace;font-size:12.5px;background:#14163b;color:#e8ebff;border-radius:var(--radius);padding:1rem 1.25rem;overflow-x:auto;line-height:1.7;margin-bottom:1rem;white-space:pre}
+        .chapter-content pre code,.chapter-content pre code.hljs{background:transparent;color:inherit;border:0;padding:0;font-size:inherit;word-break:normal}
+        .chapter-content .file-tag{font-size:11px;font-weight:700;color:#14163b;background:#c8ff00;padding:5px 14px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
+        .chapter-content .card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;margin-bottom:1rem}
         .chapter-content .card-green{border-color:var(--green-border);background:var(--green-bg)}
         .chapter-content .card-blue{border-color:var(--blue-border);background:var(--blue-bg)}
         .chapter-content .card-amber{border-color:var(--amber-border);background:var(--amber-bg)}
         .chapter-content .card-red{border-color:var(--red-border);background:var(--red-bg)}
         .chapter-content .card-purple{border-color:var(--purple-border);background:var(--purple-bg)}
-        .chapter-content .alert{padding:10px 14px;border-radius:var(--radius-sm);font-size:12.5px;margin-bottom:.75rem;line-height:1.7}
-        .chapter-content .alert-info{background:var(--blue-bg);border:1px solid var(--blue-border);color:#93c5fd}
-        .chapter-content .alert-ok{background:var(--green-bg);border:1px solid var(--green-border);color:#6ee7b7}
-        .chapter-content .alert-warn{background:var(--amber-bg);border:1px solid var(--amber-border);color:#fcd34d}
-        .chapter-content .alert-err{background:var(--red-bg);border:1px solid var(--red-border);color:#fca5a5}
-        .chapter-content .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:.85rem}
-        .chapter-content .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:.85rem}
-        .chapter-content .mini-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.75rem 1rem}
-        .chapter-content .mini-card h4{margin:0 0 .3rem;font-size:12px;color:var(--text)}
-        .chapter-content .mini-card p{margin:0;font-size:11.5px;color:var(--text3);line-height:1.6}
-        .chapter-content .steps{display:flex;flex-direction:column;gap:6px;margin-bottom:.85rem}
-        .chapter-content .step{display:flex;gap:.9rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.7rem .9rem;align-items:start}
-        .chapter-content .step-n{width:22px;height:22px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-border);color:var(--green);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
-        .chapter-content .step-body{font-size:12.5px;color:var(--text2);line-height:1.65}
+        .chapter-content .alert{padding:12px 16px;border-radius:var(--radius-sm);font-size:14px;margin-bottom:1rem;line-height:1.7;border:1px solid}
+        .chapter-content .alert-info{background:var(--blue-bg);border-color:var(--blue-border);color:#1e3a8a}
+        .chapter-content .alert-ok{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
+        .chapter-content .alert-warn{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber)}
+        .chapter-content .alert-err{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
+        .chapter-content .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:1rem}
+        .chapter-content .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1rem}
+        .chapter-content .mini-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.9rem 1.1rem}
+        .chapter-content .mini-card h4{margin:0 0 .3rem;font-size:14px;color:var(--text)}
+        .chapter-content .mini-card p{margin:0;font-size:13px;color:var(--text2);line-height:1.6}
+        .chapter-content .mini-card[style*="#"]{border-color:var(--border)!important}
+        .chapter-content .mini-card h4[style*="#"]{color:var(--blue)!important}
+        .chapter-content td[style*="#"]{color:var(--red)!important}
+        .chapter-content .steps{display:flex;flex-direction:column;gap:8px;margin-bottom:1rem}
+        .chapter-content .step{display:flex;gap:.9rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.8rem 1rem;align-items:flex-start}
+        .chapter-content .step-n{width:24px;height:24px;border-radius:50%;background:#c8ff00;color:#14163b;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .chapter-content .step-body{font-size:14px;color:var(--text2);line-height:1.65;min-width:0}
         .chapter-content .step-body strong{color:var(--text)}
-        .chapter-content .flow{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:.85rem;padding:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius)}
-        .chapter-content .flow-box{background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:6px 12px;font-size:11.5px;font-weight:600;color:var(--text);text-align:center;white-space:nowrap}
+        .chapter-content .flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:1rem;padding:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius)}
+        .chapter-content .flow-box{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 12px;font-size:12.5px;font-weight:600;color:var(--text);text-align:center}
         .chapter-content .flow-box.green{background:var(--green-bg);border-color:var(--green-border);color:var(--green)}
-        .chapter-content .flow-box.blue{background:var(--blue-bg);border-color:var(--blue-border);color:#93c5fd}
+        .chapter-content .flow-box.blue{background:var(--blue-bg);border-color:var(--blue-border);color:var(--blue)}
         .chapter-content .flow-box.amber{background:var(--amber-bg);border-color:var(--amber-border);color:var(--amber)}
         .chapter-content .flow-box.red{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
         .chapter-content .flow-arr{color:var(--text3);font-size:14px}
-        .chapter-content .token-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:.85rem;word-break:break-all;line-height:2;font-family:'Fira Code',monospace;font-size:11px}
-        .chapter-content .tok-h{background:#3b1f00;color:#fcd34d;padding:2px 5px;border-radius:3px}
-        .chapter-content .tok-p{background:#05291a;color:#6ee7b7;padding:2px 5px;border-radius:3px}
-        .chapter-content .tok-s{background:#1a0505;color:#fca5a5;padding:2px 5px;border-radius:3px}
+        .chapter-content .token-wrap{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:1rem;word-break:break-all;line-height:2;font-family:'Fira Code',monospace;font-size:12px}
+        .chapter-content .tok-h{background:#fff1c2;color:#8a5a00;padding:2px 5px;border-radius:4px}
+        .chapter-content .tok-p{background:#d9f7e8;color:#0b7a4b;padding:2px 5px;border-radius:4px}
+        .chapter-content .tok-s{background:#ffe1e1;color:#c62828;padding:2px 5px;border-radius:4px}
         .chapter-content .tok-dot{color:var(--text3);font-weight:900;font-size:16px;padding:0 1px}
-        .chapter-content .comp-table{width:100%;border-collapse:collapse;margin-bottom:.85rem;font-size:12px}
-        .chapter-content .comp-table th{background:var(--bg4);border:1px solid var(--border);padding:7px 10px;color:var(--text);font-weight:700;text-align:left}
-        .chapter-content .comp-table td{border:1px solid var(--border);padding:7px 10px;color:var(--text2)}
-        .chapter-content .kw-table{width:100%;border-collapse:collapse;margin-bottom:.85rem;font-size:12px}
-        .chapter-content .kw-table td:first-child{font-family:'Fira Code',monospace;font-size:11px;color:var(--cyan);background:var(--bg3);border:1px solid var(--border);padding:6px 10px;white-space:nowrap;width:30%}
-        .chapter-content .kw-table td:last-child{border:1px solid var(--border);padding:6px 10px;color:var(--text2)}
-        .chapter-content .divider{border:none;border-top:1px solid var(--border);margin:1.25rem 0}
-        .chapter-content .badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin:2px;letter-spacing:.04em}
-        .chapter-content .real-life{background:var(--purple-bg);border:1px solid var(--purple-border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.85rem}
-        .chapter-content .real-life-title{font-size:10px;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem}
+        .chapter-content .comp-table,.chapter-content .kw-table{width:100%;border-collapse:collapse;margin-bottom:1rem;font-size:13.5px;display:block;overflow-x:auto}
+        .chapter-content .comp-table th{background:var(--bg4);border:1px solid var(--border);padding:8px 12px;color:var(--text);font-weight:700;text-align:left}
+        .chapter-content .comp-table td{border:1px solid var(--border);padding:8px 12px;color:var(--text2)}
+        .chapter-content .kw-table td:first-child{font-family:'Fira Code',monospace;font-size:12px;color:var(--blue);background:var(--bg3);border:1px solid var(--border);padding:8px 12px;white-space:nowrap;width:30%}
+        .chapter-content .kw-table td:last-child{border:1px solid var(--border);padding:8px 12px;color:var(--text2)}
+        .chapter-content .divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+        .chapter-content .real-life{background:var(--purple-bg);border:1px solid var(--purple-border);border-radius:var(--radius);padding:1.1rem 1.3rem;margin-bottom:1rem}
+        .chapter-content .real-life-title{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.5rem}
       `}</style>
     </div>
   );

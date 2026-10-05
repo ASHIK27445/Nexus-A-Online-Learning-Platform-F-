@@ -62,14 +62,14 @@ export const router = createBrowserRouter([
             },
             {
                 path: '/aboutUs', Component: AboutUs
-            }
+            },
+            {
+                path: '/jwt-token', Component: JWTMasteryCourse
+            },
         ]
     },
     {
         path: '*', Component: ErrorPage
-    },
-    {
-        path: '/jwt-token', Component: JWTMasteryCourse
     },
     {
         path: '/menu', Component: MenuPage
